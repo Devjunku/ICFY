@@ -21,5 +21,11 @@ def movie_index(request):
     #         serializer.save()
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+@api_view(['GET', 'POST'])
+def movie_detail(request, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    serializer = MovieListSerializer(movie)
+    return Response(serializer.data)
 
 

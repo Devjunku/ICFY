@@ -20,7 +20,7 @@ export default new Vuex.Store({
     createMovies: function ({commit}) {
       axios.get(MOVIES_LIST_URL)
       .then(res => {
-        console.log(res)
+        // console.log(res)
         commit('CREATE_MOVIES', res.data)
       })
       .catch(err => {
