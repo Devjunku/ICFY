@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'CreateReview',
   data: function () {
@@ -49,6 +51,7 @@ export default {
         headers: this.setToken()
       })
         .then(res => {
+          console.log(res)
           this.$router.push({ name: 'ReviewPage' })
         })
         .catch(err => {

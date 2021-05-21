@@ -26,17 +26,17 @@ const routes = [
     component: ReviewPage
   },
   {
-    path: '/accounts/signup',
+    path: '/accounts/signup/',
     name: 'Signup',
     component: Signup,
   },
   {
-    path: '/accounts/login',
+    path: '/accounts/login/',
     name: 'Login',
     component: Login,
   },
   {
-    path: '/community/:reviewPk',
+    path: '/:movieId/reviews/',
     name: 'CreateReview',
     component: CreateReview,
   },
