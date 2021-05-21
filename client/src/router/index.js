@@ -5,6 +5,7 @@ import MovieDetail  from '../views/movies/MovieDetail.vue'
 import ReviewPage from '../views/movies/ReviewPage.vue'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
+import CreateReview from '../views/movies/CreateReview.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/accounts/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/community/:reviewPk',
+    name: 'CreateReview',
+    component: CreateReview,
   },
 ]
 
