@@ -9,7 +9,7 @@ urlpatterns = [
     path('<int:movie_id>/', views.movie_detail, name='movie_detail'),
     # GET : 특정 영화에 대한 커뮤니티
     # POST: 특정 영화에 대한 리뷰 생성
-    # path('<int:movie_id>/community', views.community, name='community'),
+    path('<int:movie_id>/community', views.community, name='community'),
     # GET : 특정 리뷰 보기
     # PUT : 특정 리뷰 수정
     # DELETE : 특정 리뷰 삭제 
