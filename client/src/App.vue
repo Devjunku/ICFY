@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand fixed-top navbar-dark bg-dark d-flex justify-content-between">
       <div class="ms-3">
-        <router-link :to="{ name: 'MovieHome'}" class="navbar-brand">
+        <router-link :to="{ name: 'Movies'}" class="navbar-brand">
           <img src="./assets/logo.png" alt="logo image" height="35">
         </router-link>  
       </div>
@@ -48,7 +48,7 @@ export default {
     logout: function () {
       this.isLogin = false
       localStorage.removeItem('jwt')
-      this.$router.push({ name: 'MovieHome' })
+      this.$router.push({ name: 'Movies' })
     }
   },
   created: function () {
