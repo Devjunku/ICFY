@@ -1,6 +1,11 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import JsonResponse, HttpResponse
 from .models import Movie, Review
@@ -8,6 +13,8 @@ from .serializers import MovieListSerializer, ReviewListSerializer
 
 # Create your views here.
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_index(request):
     if request.method == 'GET':
         # articles = Article.objects.all()
@@ -24,6 +31,8 @@ def movie_index(request):
         
 
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
     serializer = MovieListSerializer(movie)
@@ -31,6 +40,8 @@ def movie_detail(request, movie_id):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def community(request, movie_id):
     # GET 방식이면 리뷰를 보는 행위
     if request.method == 'GET':
@@ -41,8 +52,10 @@ def community(request, movie_id):
 
 
 @api_view(['POST'])
-def review_create(request, movie_pk):
-    movie = get_object_or_404(Movie, id=movie_pk)
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def review_create(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
     serializers = ReviewListSerializer(data=request.data)
     if serializers.is_valie(raise_exception = True):
         serializers.save(movie=movie, user=request.user)
@@ -50,6 +63,8 @@ def review_create(request, movie_pk):
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def review_detail(request, review_pk):
 
     # GET 방식이면, detail 페이지 데이터 전송
