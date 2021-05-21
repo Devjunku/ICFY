@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Movies from '../views/Movies.vue'
-import MovieDetail  from '../views/MovieDetail.vue'
-import ReviewPage from '../views/ReviewPage.vue'
-
+import Movies from '../views/movies/Movies.vue'
+import MovieDetail  from '../views/movies/MovieDetail.vue'
+import ReviewPage from '../views/movies/ReviewPage.vue'
+import Signup from '@/views/accounts/Signup'
+import Login from '@/views/accounts/Login'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,16 @@ const routes = [
     path: '/:movieId/community/',
     name: 'ReviewPage',
     component: ReviewPage
+  },
+  {
+    path: '/accounts/signup',
+    name: 'Signup',
+    component: Signup,
+  },
+  {
+    path: '/accounts/login',
+    name: 'Login',
+    component: Login,
   },
 ]
 
