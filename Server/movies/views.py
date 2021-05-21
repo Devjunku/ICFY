@@ -36,8 +36,6 @@ def movie_detail(request, movie_id):
 
 
 @api_view(['GET'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
 def community(request, movie_id):
     # GET 방식이면 리뷰를 보는 행위
     if request.method == 'GET':
@@ -53,7 +51,7 @@ def community(request, movie_id):
 def review_create(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     serializers = ReviewListSerializer(data=request.data)
-    if serializers.is_valie(raise_exception = True):
+    if serializers.is_valid(raise_exception = True):
         serializers.save(movie=movie, user=request.user)
         return Response(serializers.data, status=status.HTTP_201_CREATED)
 

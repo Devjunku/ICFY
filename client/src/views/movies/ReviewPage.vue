@@ -83,7 +83,7 @@ export default {
   methods: {
     requestReviews: function () {
       axios({
-        url: 'http://127.0.0.1:8000/' + this.$route.params.movieId +'/community/',
+        url: 'http://127.0.0.1:8000/movies/' + this.$route.params.movieId +'/community/',
         method: 'get',
       })
       .then(res => {
