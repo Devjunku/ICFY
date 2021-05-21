@@ -96,7 +96,7 @@ export default {
     },
     goWriteReview: function () {
       this.$router.push({name: 'CreateReview', params: { movieId: this.$route.params.movieId }})
-    }
+    },
   },
   created: function () {
     this.requestReviews()
