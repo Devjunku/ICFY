@@ -5,7 +5,6 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import JsonResponse, HttpResponse
 from .models import Movie, Review
 from .serializers import MovieListSerializer, ReviewListSerializer
-from Server.movies import serializers
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -23,6 +22,7 @@ def movie_index(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
+
 @api_view(['GET', 'POST'])
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
@@ -45,7 +45,7 @@ def review_create(request, movie_pk):
     movie = get_object_or_404(Movie, id=movie_pk)
     serializers = ReviewListSerializer(data=request.data)
     if serializers.is_valie(raise_exception = True):
-        serializers.save(movie=movie)
+        serializers.save(movie=movie, user=request.user)
         return Response(serializers.data, status=status.HTTP_201_CREATED)
 
 
