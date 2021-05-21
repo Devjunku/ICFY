@@ -90,6 +90,9 @@ export default {
         console.log(res)
         this.reviews = res.data
       })
+      .catch(err => {
+          console.log(err)
+        })
     },
     goWriteReview: function () {
       this.$router.push({name: 'CreateReview', params: { movieId: this.$route.params.movieId }})

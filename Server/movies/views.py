@@ -13,8 +13,6 @@ from .serializers import MovieListSerializer, ReviewListSerializer
 
 # Create your views here.
 @api_view(['GET', 'POST'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
 def movie_index(request):
     if request.method == 'GET':
         # articles = Article.objects.all()
@@ -31,8 +29,6 @@ def movie_index(request):
         
 
 @api_view(['GET', 'POST'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
     serializer = MovieListSerializer(movie)
