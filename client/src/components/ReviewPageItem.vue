@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <tr>
+  <div @click="showReviewDetail">
       <th scope="row">{{ review.movie }}</th>
+    <tr>
       <td>{{ review.title }}</td>
       <td>{{ review.user }}</td>
       <td>{{ review.updated_at }}</td>
@@ -17,7 +17,11 @@ export default {
       type: Object
     }
   },
-
+  methods: {
+    showReviewDetail: function () {
+      this.$router.push({name: 'ReviewDetail', params: { reviewId: this.review.id}})
+    }
+  }
 }
 </script>
 

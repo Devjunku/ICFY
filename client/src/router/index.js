@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Movies from '../views/movies/Movies.vue'
-import MovieDetail  from '../views/movies/MovieDetail.vue'
-import ReviewPage from '../views/movies/ReviewPage.vue'
+import Movies from '@/views/movies/Movies.vue'
+import MovieDetail  from '@/views/movies/MovieDetail.vue'
+import ReviewPage from '@/views/movies/ReviewPage.vue'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
-import CreateReview from '../views/movies/CreateReview.vue'
+import CreateReview from '@/views/movies/CreateReview.vue'
+import ReviewDetail from '@/views/movies/ReviewDetail.vue'
+
 
 Vue.use(VueRouter)
 
@@ -39,6 +41,11 @@ const routes = [
     path: '/:movieId/reviews/',
     name: 'CreateReview',
     component: CreateReview,
+  },
+  {
+    path: '/community/:reviewId/',
+    name: 'ReviewDetail',
+    component: ReviewDetail,
   },
 ]
 
