@@ -70,7 +70,8 @@ def review_detail(request, review_pk):
     # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
     elif request.method == 'DELETE':
         data = {
-            'Delete': f'{request.user}님이 작성하신 영화 리뷰 {review.title}이 삭제되었습니다.'
+            'Delete': f'{request.user}님이 작성하신 영화 리뷰 {review.title}이 삭제되었습니다.',
+            'movie_id': review.movie_id
         }
         review.delete()
         return Response(data, status=status.HTTP_204_NO_CONTENT)
