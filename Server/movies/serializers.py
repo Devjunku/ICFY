@@ -12,9 +12,9 @@ class MovieListSerializer(serializers.ModelSerializer):
 class ReviewListSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Comment
+        model = Review
         fields = '__all__'
-        read_only_fields = ('title',)
+        read_only_fields = ('movie', 'user',)
 
 
 # class ArticleSerializer(serializers.ModelSerializer):
