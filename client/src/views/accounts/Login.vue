@@ -37,6 +37,8 @@ export default {
         .then(res => {
           localStorage.setItem('jwt', res.data.token)
           console.log(res)
+          console.log(this.credentials.username)
+          this.$store.dispatch('storeUsername', this.credentials.username)
           this.$emit('login')
           this.$router.push({ name: 'Movies' })
         })

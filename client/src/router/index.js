@@ -5,6 +5,7 @@ import MovieDetail  from '@/views/movies/MovieDetail.vue'
 import ReviewPage from '@/views/movies/ReviewPage.vue'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
+import MyProfile from '@/views/accounts/MyProfile'
 import CreateReview from '@/views/movies/CreateReview.vue'
 import ReviewDetail from '@/views/movies/ReviewDetail.vue'
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/accounts/login/',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/accounts/MyProfile/',
+    name: 'MyProfile',
+    component: MyProfile,
   },
   {
     path: '/:movieId/reviews/',
