@@ -29,13 +29,11 @@
 
       </div>
     </nav>
-
     <router-view @login="isLogin = true"/>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'App',
   data: function() {
@@ -49,14 +47,14 @@ export default {
       this.isLogin = false
       localStorage.removeItem('jwt')
       this.$router.push({ name: 'Movies' })
-    }
+    },
   },
   created: function () {
     const token = localStorage.getItem('jwt')
     if (token) {
       this.isLogin = true
     }
-  }
+  },
 }
 </script>
 

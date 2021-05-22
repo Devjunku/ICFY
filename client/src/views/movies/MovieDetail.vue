@@ -23,8 +23,8 @@ export default {
   methods: {
     showMovieDetail: function () {
       axios({
-        url: 'http://127.0.0.1:8000/movies/' + this.$route.params.movieId,
         method: 'get',
+        url: 'http://127.0.0.1:8000/movies/' + this.$route.params.movieId,
       })
       .then(res => {
         console.log(res)

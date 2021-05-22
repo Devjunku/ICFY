@@ -1,6 +1,9 @@
 <template>
   <div v-if="review" class="container">
-    <p>{{ review.title }}</p>
+    <div class="d-flex">
+      <p>{{ review.title }}</p>
+    </div>
+    
     <hr>
     <p>{{ review.content }}</p>
     <div>댓글들</div>
@@ -17,10 +20,18 @@ export default {
     }
   },
   methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+      return config
+    },
     showReviewDetail: function () {
       axios({
         url: 'http://127.0.0.1:8000/movies/community/' + this.$route.params.reviewId,
         method: 'get',
+        headers: this.setToken()
       })
       .then(res => {
         console.log(res)
