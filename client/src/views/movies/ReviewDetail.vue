@@ -1,6 +1,9 @@
 <template>
   <div v-if="review" class="container">
-    <p>{{ review.title }}</p>
+    <div class="d-flex">
+      <p>{{ review.title }}</p>
+    </div>
+    
     <hr>
     <p>{{ review.content }}</p>
     <button @click="updateReview">리뷰 수정</button>

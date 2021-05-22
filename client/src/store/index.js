@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     movies: [],
     review: null,
+    username: '',
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     UPDATE_REVIEW:function (state, review) {
       state.review = review
     },
+    STORE_USERNAME: function (state, username) {
+      state.username = username
+    }
   },
   actions: {
     createMovies: function ({commit}) {
@@ -34,6 +38,9 @@ export default new Vuex.Store({
     updateReview: function ({ commit }, review) {
       commit('UPDATE_REVIEW', review)
     },
+    storeUsername: function ({ commit }, username) {
+      commit('STORE_USERNAME', username)
+    }
   },
   modules: {
   }
