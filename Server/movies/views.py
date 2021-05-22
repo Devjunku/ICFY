@@ -6,8 +6,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import JsonResponse, HttpResponse
+from django.shortcuts import  get_object_or_404, get_list_or_404
 from .models import Movie, Review
 from .serializers import MovieListSerializer, ReviewListSerializer
 
@@ -69,16 +68,12 @@ def review_detail(request, review_pk):
 
     # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
     elif request.method == 'DELETE':
-        data = {
-            'Delete': f'{request.user}님이 작성하신 영화 리뷰 {review.title}이 삭제되었습니다.',
-            'movie_id': review.movie_id
-        }
         review.delete()
-        return Response(data, status=status.HTTP_204_NO_CONTENT)
+        return Response({'movie_id': review.movie_id})
 
-    # DELETE 방식이면 리뷰를 작성 데이터를 DB에 수정 후 전송
+    # PUT 방식이면 리뷰를 작성 데이터를 DB에 수정 후 전송
     elif request.method == 'PUT':
-        serializer = ReviewListSerializer(Review, data=request.data)
+        serializer = ReviewListSerializer(review, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

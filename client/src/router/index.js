@@ -7,6 +7,8 @@ import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import CreateReview from '@/views/movies/CreateReview.vue'
 import ReviewDetail from '@/views/movies/ReviewDetail.vue'
+import UpdateReview from '@/views/movies/UpdateReview.vue'
+
 
 
 Vue.use(VueRouter)
@@ -46,6 +48,11 @@ const routes = [
     path: '/community/:reviewId/',
     name: 'ReviewDetail',
     component: ReviewDetail,
+  },
+  {
+    path: '/community/:reviewId/update',
+    name: 'UpdateReview',
+    component: UpdateReview,
   },
 ]
 

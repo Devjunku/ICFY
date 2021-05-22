@@ -10,11 +10,15 @@ const MOVIES_LIST_URL = 'http://127.0.0.1:8000/movies/'
 export default new Vuex.Store({
   state: {
     movies: [],
+    review: null,
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
       state.movies = movies
-    }
+    },
+    UPDATE_REVIEW:function (state, review) {
+      state.review = review
+    },
   },
   actions: {
     createMovies: function ({commit}) {
@@ -26,7 +30,10 @@ export default new Vuex.Store({
       .catch(err => {
         console.log(err)
       })
-    }
+    },
+    updateReview: function ({ commit }, review) {
+      commit('UPDATE_REVIEW', review)
+    },
   },
   modules: {
   }

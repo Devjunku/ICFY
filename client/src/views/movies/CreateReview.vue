@@ -52,6 +52,7 @@ export default {
       })
         .then(res => {
           console.log(res)
+          // 승철: params를 안 줬는데 이게 어떻게 가능하지? 경로의 첫 부분이 같아서 가능한 것 같다.
           this.$router.push({ name: 'ReviewPage' })
         })
         .catch(err => {
