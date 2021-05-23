@@ -1,35 +1,32 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand fixed-top navbar-dark d-flex justify-content-between">
+    <nav class="navbar transparent8 navbar-expand fixed-top navbar-dark d-flex justify-content-between">
       <div class="ms-3">
         <router-link :to="{ name: 'Movies'}" class="navbar-brand">
           <img src="./assets/icfy.png" alt="logo image" height="40">
         </router-link>  
       </div>
-      
       <div>
-      <div v-if="isLogin" id="guide" v-text="mainGuide"></div>
-      <div v-else id="guide" v-text="loginGuide"></div>
-      </div>
-        
+        <div v-if="isLogin" id="guide" v-text="mainGuide"></div>
+        <div v-else id="guide" v-text="loginGuide"></div>
+      </div>   
       <div>
         <ul v-if="isLogin" class="navbar-nav">
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none text-dark fw-bold">내 프로필</router-link>
+            <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light">내 프로필</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link @click.native="logout" to="#" class="nav-link text-decoration-none text-dark fw-bold">로그아웃</router-link>
+            <router-link @click.native="logout" to="#" class="nav-link text-decoration-none fw-bold text-light">로그아웃</router-link>
           </li>
         </ul>
         <ul v-else class="navbar-nav">
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none text-dark fw-bold">회원가입</router-link>
+            <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light">회원가입</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'Login'}" class="nav-link text-decoration-none text-dark fw-bold">로그인</router-link>
+            <router-link :to="{ name: 'Login'}" class="nav-link text-decoration-none fw-bold text-light">로그인</router-link>
           </li>
         </ul>
-
       </div>
     </nav>
     <br>
@@ -71,27 +68,37 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffff;
+  background-color: #222425;
 }
 
 #nav {
   padding: 30px;
+
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #ffffff;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #d0d6d4;
 }
 
 .navbar {
   /* 어떤 색으로 할지 정해야 한다. */
   /* background: linear-gradient(45deg, #87adfe, #ff77cd); */
-  background-color: antiquewhite;
+  background-color: rgb(44, 43, 43);
+  box-shadow: 0px 0px;
 }
+
+.transparent8 {
+  zoom: 1;
+ /* ie 5,6,7 bug fix */
+  filter: alpha(opacity=100);
+  opacity: 0.8; }
+
 
 #guide {
   padding: 5px;

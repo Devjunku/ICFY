@@ -1,5 +1,5 @@
 <template>
-  <div class="main container">
+  <div class="container">
     <h1 class="d-flex justify-content-center my-5">Community</h1>
     <div class="row">
       <!-- Board -->
@@ -8,7 +8,6 @@
           <table class="table table-striped">
             <thead>
             <tr class="table-dark">
-              <th scope="col">영화 제목</th>
               <th scope="col">글 제목</th>
               <th scope="col">작성자</th>
               <th scope="col">작성 시간</th>
