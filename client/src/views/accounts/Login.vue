@@ -64,7 +64,7 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         this.$store.dispatch('storeUserInfo', res.data)
       })
       .catch(err => {

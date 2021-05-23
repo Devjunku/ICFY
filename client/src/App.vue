@@ -88,7 +88,6 @@ export default {
 
 .navbar {
   /* 어떤 색으로 할지 정해야 한다. */
-  /* background: linear-gradient(45deg, #87adfe, #ff77cd); */
   background-color: rgb(44, 43, 43);
   box-shadow: 0px 0px;
 }
