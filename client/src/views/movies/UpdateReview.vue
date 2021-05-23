@@ -35,7 +35,7 @@ export default {
       if (this.review.title && this.review.content) {
 
         axios({
-          method: 'put',
+        method: 'put',
         url: 'http://127.0.0.1:8000/movies/community/'+ this.$route.params.reviewId +'/',
         data: {
         title: this.review.title,

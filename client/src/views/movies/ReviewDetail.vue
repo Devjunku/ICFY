@@ -9,16 +9,35 @@
     <button @click="updateReview">리뷰 수정</button>
     <button @click="deleteReview">리뷰 삭제</button>
     <div>댓글들</div>
+    <CommentItem
+      v-for="(comment, idx) in comments" 
+      :key="idx"
+      :comment="comment"
+      @delete-comment="showReviewDetail"
+      @update-comment="showReviewDetail"
+    />
+     <div>
+      <label for="content">댓글: </label>
+      <input type="text" id="content" v-model="commentContent" @keyup.enter="createComment">
+    </div>
+    <button @click="createComment">댓글 쓰기</button>
   </div>
 </template>
 
 <script>
+import CommentItem from '@/components/CommentItem'
+
 import axios from 'axios'
 export default {
   name: 'ReviewDetail',
+  components: {
+    CommentItem
+  },
   data: function () {
     return {
       review: null,
+      comments: [],
+      commentContent: null,
     }
   },
   methods: {
@@ -38,6 +57,7 @@ export default {
       .then(res => {
         console.log(res)
         this.review = res.data
+        this.comments = res.data.comment_set
       })
     },
     deleteReview: function () {
@@ -59,6 +79,30 @@ export default {
     updateReview: function () {
       this.$store.dispatch('updateReview', this.review)
       this.$router.push( {name: 'UpdateReview'})
+    },
+    
+    createComment: function () {
+      // 빈 값이 아니라면
+      if (this.commentContent) {
+
+        axios({
+          method: 'post',
+        url: 'http://127.0.0.1:8000/movies/community/'+ this.review.id +'/',
+        data: {
+        content: this.commentContent,
+        },
+        headers: this.setToken()
+      })
+        .then(res => {
+          console.log(res)
+          this.showReviewDetail()
+          // 빈 칸으로 만들기
+          this.commentContent =""
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
     }
   },
   created: function () {

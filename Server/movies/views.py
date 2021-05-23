@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from django.shortcuts import  get_object_or_404, get_list_or_404
-from .models import Movie, Review
-from .serializers import MovieListSerializer, ReviewListSerializer
+from .models import Movie, Review, Comment
+from .serializers import MovieListSerializer, ReviewListSerializer, CommentSerializer
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -55,16 +55,23 @@ def review_create(request, movie_id):
         return Response(serializers.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST','DELETE', 'PUT'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def review_detail(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
 
     # GET 방식이면, detail 페이지 데이터 전송
-    review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'GET':
         serializer = ReviewListSerializer(review)
         return Response(serializer.data)
+
+    elif request.method == 'POST':
+        review = get_object_or_404(Review, id=review_pk)
+        serializers = CommentSerializer(data=request.data)
+        if serializers.is_valid(raise_exception = True):
+            serializers.save(review=review, user=request.user)
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
 
     # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
     elif request.method == 'DELETE':
@@ -74,6 +81,22 @@ def review_detail(request, review_pk):
     # PUT 방식이면 리뷰를 작성 데이터를 DB에 수정 후 전송
     elif request.method == 'PUT':
         serializer = ReviewListSerializer(review, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+@api_view(['DELETE', 'PUT'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def change_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.method == 'DELETE':
+        comment.delete()
+        return Response({'comment_id': comment.id})
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
