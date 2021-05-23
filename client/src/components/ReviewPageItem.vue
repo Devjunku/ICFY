@@ -1,11 +1,10 @@
 <template>
-  <div @click="showReviewDetail">
-      <th scope="row">{{ review.movie }}</th>
-    <tr>
+  <div @click="showReviewDetail" class="text-light">
+      {{ review }}
+      <th scope="row">{{ review.movie.title }}</th>
       <td>{{ review.title }}</td>
-      <td>{{ review.user }}</td>
+      <td>{{ review.username }}</td>
       <td>{{ review.updated_at }}</td>
-    </tr>
   </div>
 </template>
 

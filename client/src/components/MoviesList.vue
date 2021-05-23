@@ -1,10 +1,7 @@
 <template>
   <div class="col">
-    <div class="card h-100" @click="showMovieDetail">
-      <img :src="moviePosterPath" class="card-img-top" alt="movie">
-      <div class="card-body">
-        <h5 class="card-title">{{ movie.title }}</h5>
-      </div>
+    <div class="card h-50 border border-dark" @click="showMovieDetail">
+      <img :src="moviePosterPath" class="card-img-top rounded" alt="movie">
     </div>
   </div>
 </template>

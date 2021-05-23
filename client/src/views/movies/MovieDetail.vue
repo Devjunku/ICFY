@@ -1,12 +1,21 @@
 <template>
-  <div v-if="movie" class="container">
-    <p>{{ movie.title }}</p>
-    <hr>
-    <img :src="moviePosterPath" alt="poster">
-    <hr>
-    <p>{{ movie.overview }}</p>
-    <button @click="goToReview">리뷰보기</button>
-
+  <div v-if="movie">
+    <br>
+    <p class="fw-bold">{{ movie.title }}</p>
+    <figure class="figure me-4">
+      <img class="rounded" :src="moviePosterPath" alt="poster">
+      <div class="justify-content-center">
+        <div class="container col-6">
+          <br>
+          <div>
+            <p style="text-align:justify; box-sizing: border-box;">{{ movie.overview }}</p>
+          </div>
+        </div>
+      </div>
+    </figure>
+    <div class="m-4">
+      <button class="btn btn-warning" @click="goToReview">리뷰보기</button>
+    </div>
   </div>
 </template>
 

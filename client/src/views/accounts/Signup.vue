@@ -1,20 +1,24 @@
 <template>
   <div class="container">
+    <br>
     <h1>Signup</h1>
     <div class="input-group justify-content-center">
-      <div class="mb-3">
-          <label for="username" class="form-label">사용자 이름:</label>
+      <div class="mb-3">      
           <input type="text" class="form-control" id="username" v-model="credentials.username" placeholder="아이디를 입력하세요">
       </div>
+    </div>
+    <div class="input-group justify-content-center">
       <div class="mb-3">
-        <label for="password" class="form-label">비밀번호:</label>
         <input type="password" class="form-control" id="password" v-model="credentials.password" placeholder="비밀번호를 입력하세요">
       </div>
+    </div>
+    <div class="input-group justify-content-center">
       <div>
-        <label for="passwordConfirmation">비밀번호 확인: </label>
-        <input type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="비밀번호를 입력하세요">
-        <button @click="signup(credentials)">회원가입</button>
+        <input type="password" class="form-control" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="비밀번호를 재입력하세요">
       </div>
+    </div>
+    <div class="mt-3">
+      <button class="btn btn-warning" @click="signup(credentials)">회원가입</button>
     </div>
   </div>
 </template>

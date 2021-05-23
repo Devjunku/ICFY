@@ -1,15 +1,20 @@
 <template>
   <div>
+    <br>
     <h1>Login</h1>
-    <div>
-      <label for="username">사용자 이름: </label>
-      <input type="text" id="username" v-model="credentials.username">
+    <div class="input-group justify-content-center">
+      <div class="mb-3">   
+        <input class="form-control" placeholder="아이디를 입력하세요" type="text" id="username" v-model="credentials.username">
+      </div>
+    </div>
+    <div class="input-group justify-content-center">
+      <div class="mb-3">   
+        <input class="form-control" placeholder="비밀번호를 입력하세요" type="password" id="password" v-model="credentials.password">
+      </div>
     </div>
     <div>
-      <label for="password">비밀번호: </label>
-      <input type="password" id="password" v-model="credentials.password">
+      <button class="btn btn-success" @click="login">로그인</button>
     </div>
-    <button @click="login">로그인</button>
   </div>
 </template>
 
