@@ -100,3 +100,22 @@ def change_comment(request, comment_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def profile_info(request, user_id):
+    
+    # 작성한 리뷰가 없으면 404 에러가 난다.
+    # reviews = get_list_or_404(Review, user_id=user_id)
+    # comments = get_list_or_404(Comment, user_id=user_id)
+
+    # 그래서 이렇게 쓰겠다.
+    reviews = Review.objects.filter(user_id=user_id)
+    comments = Comment.objects.filter(user_id=user_id)
+
+    if request.method == 'GET':
+        review_serializer = ReviewListSerializer(reviews,  many=True)
+        comment_serializer = CommentSerializer(comments, many=True)
+        # [{}, {}] 이런 형태로 들어오는데 이렇게 해줘야 구분할 수 있다.
+        return Response({'review': review_serializer.data, 'comment': comment_serializer.data})
