@@ -36,16 +36,38 @@ export default {
       })
         .then(res => {
           localStorage.setItem('jwt', res.data.token)
-          console.log(res)
-          console.log(this.credentials.username)
           this.$store.dispatch('storeUsername', this.credentials.username)
           this.$emit('login')
           this.$router.push({ name: 'Movies' })
+          this.storeUserInfo()
         })
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+      return config
+    },
+    storeUserInfo: function () {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/accounts/${this.credentials.username}/`,
+        headers: this.setToken(),
+      })
+      .then(res => {
+        console.log(res)
+        this.$store.dispatch('storeUserInfo', res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    }  
+        
   }
 }
 </script>

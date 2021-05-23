@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from "vuex-persistedstate"
 
 
 Vue.use(Vuex)
@@ -8,10 +9,16 @@ Vue.use(Vuex)
 const MOVIES_LIST_URL = 'http://127.0.0.1:8000/movies/'
 
 export default new Vuex.Store({
+  // state를 브라우저에 저장해두기
+  // 새로고침해도 정보가 남아있다.
+  plugins: [
+    createPersistedState(),
+  ],
   state: {
     movies: [],
     review: null,
-    username: '',
+    username: null,
+    userinfo: [],
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
@@ -22,7 +29,10 @@ export default new Vuex.Store({
     },
     STORE_USERNAME: function (state, username) {
       state.username = username
-    }
+    },
+    STORE_USERINFO: function (state, userInfo) {
+    state.userinfo = userInfo
+    },
   },
   actions: {
     createMovies: function ({commit}) {
@@ -40,7 +50,10 @@ export default new Vuex.Store({
     },
     storeUsername: function ({ commit }, username) {
       commit('STORE_USERNAME', username)
-    }
+    },
+    storeUserInfo: function ({ commit }, userInfo) {
+      commit('STORE_USERINFO', userInfo)
+    },
   },
   modules: {
   }

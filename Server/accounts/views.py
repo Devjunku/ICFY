@@ -1,11 +1,14 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import update_session_auth_hash, get_user_model
-from django.views.decorators.http import require_POST, require_http_methods
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
+
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 
 # Create your views here.
 
@@ -26,6 +29,8 @@ def signup(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def profile(request, username):
     person = get_object_or_404(get_user_model(), username=username)
     serializer = UserSerializer(person)
