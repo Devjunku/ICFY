@@ -6,6 +6,7 @@ import ReviewPage from '@/views/movies/ReviewPage.vue'
 import Signup from '@/views/accounts/Signup'
 import Login from '@/views/accounts/Login'
 import MyProfile from '@/views/accounts/MyProfile'
+import SelectedProfile from '@/views/accounts/SelectedProfile'
 import CreateReview from '@/views/movies/CreateReview.vue'
 import ReviewDetail from '@/views/movies/ReviewDetail.vue'
 import UpdateReview from '@/views/movies/UpdateReview.vue'
@@ -44,6 +45,11 @@ const routes = [
     path: '/accounts/MyProfile/',
     name: 'MyProfile',
     component: MyProfile,
+  },
+  {
+    path: '/accounts/Profile/:userId/',
+    name: 'SelectedProfile',
+    component: SelectedProfile,
   },
   {
     path: '/:movieId/reviews/',

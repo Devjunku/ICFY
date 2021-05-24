@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, UserProfileSerializer, UserCheckSerializer
+from .serializers import UserSerializer, UserProfileSerializer, UserCheckSerializer, FollowSerializer
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -36,3 +36,61 @@ def check(request, username):
     serializer = UserCheckSerializer(person)
     return Response(serializer.data, status=status.HTTP_200_OK)
     
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def find_username(request, user_id):
+    person = get_object_or_404(get_user_model(), id=user_id)
+    serializer = UserCheckSerializer(person)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def follow(request, user_id):
+    # 팔로우 받는 사람
+    you = get_object_or_404(get_user_model(), id=user_id)
+    
+    followings = you.followings.all()
+    followers = you.followers.all()
+    followings_serializer = FollowSerializer(followings, many=True)
+    followers_serializer = FollowSerializer(followers, many=True)
+
+    return Response({
+        "followings": followings_serializer.data,
+        "followers": followers_serializer.data,
+        "followings_num": len(followings_serializer.data),
+        "followers_num": len(followers_serializer.data),
+        }, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def follow_change(request, user_id):
+    # 팔로우 받는 사람
+    you = get_object_or_404(get_user_model(), id=user_id)
+    me = request.user
+    
+    # 나 자신은 팔로우 할 수 없다.
+    if you != me:
+        if you.followers.filter(id=me.id).exists():
+            # 팔로우 끊음
+            you.followers.remove(me)
+        else:
+            # 팔로우 신청
+            you.followers.add(me)
+
+    followings = you.followings.all()
+    followers = you.followers.all()
+    followings_serializer = FollowSerializer(followings, many=True)
+    followers_serializer = FollowSerializer(followers, many=True)
+
+    return Response({
+        "followings": followings_serializer.data,
+        "followers": followers_serializer.data,
+        "followings_num": len(followings_serializer.data),
+        "followers_num": len(followers_serializer.data),
+        }, status=status.HTTP_200_OK)
