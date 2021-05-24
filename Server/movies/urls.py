@@ -19,6 +19,8 @@ urlpatterns = [
     # PUT : 특정 댓글 수정
     # DELETE : 특정 댓글 삭제
     path('comments/<int:comment_id>/', views.change_comment),
+
+    path('<int:movie_id>/recommend/', views.recommend),
     # GET : 특정 유저가 작성한 리뷰 댓글 조회
     # 유저도 관련되지만 중점은 리뷰와 댓글이기에 이곳에 작성하겠다.
     path('profile/<int:user_id>/', views.profile_info),
