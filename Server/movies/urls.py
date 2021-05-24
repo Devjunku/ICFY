@@ -22,4 +22,6 @@ urlpatterns = [
     # GET : 특정 유저가 작성한 리뷰 댓글 조회
     # 유저도 관련되지만 중점은 리뷰와 댓글이기에 이곳에 작성하겠다.
     path('profile/<int:user_id>/', views.profile_info),
+    # POST : 영화 추천 URL
+    path('<int:movie_id>/recommend/', views.recommend),
 ]

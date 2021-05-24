@@ -6,7 +6,7 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'overview', 'poster_path', 'vote_average', 'adult', )
+        fields = ('id', 'title', 'overview', 'poster_path', 'vote_average', 'adult', 'vote_count', 'genre_ids')
 
 
 class CommentSerializer(serializers.ModelSerializer):

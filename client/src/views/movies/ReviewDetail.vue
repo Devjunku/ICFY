@@ -3,11 +3,12 @@
     <div class="d-flex">
       <p>{{ review.title }}</p>
     </div>
-    
     <hr>
     <p>{{ review.content }}</p>
-    <button @click="updateReview">리뷰 수정</button>
-    <button @click="deleteReview">리뷰 삭제</button>
+    <div v-if="requestUser.id === review.user">
+      <button @click="updateReview">리뷰 수정</button>
+      <button @click="deleteReview">리뷰 삭제</button>
+    </div>
     <div>댓글들</div>
     <CommentItem
       v-for="(comment, idx) in comments" 
@@ -103,6 +104,11 @@ export default {
           console.log(err)
         })
       }
+    }
+  },
+  computed: {
+    requestUser: function () {
+      return this.$store.state.userinfo
     }
   },
   created: function () {
