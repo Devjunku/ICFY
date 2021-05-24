@@ -1,10 +1,11 @@
 <template>
   <div @click="showReviewDetail" class="text-light">
-      {{ review }}
       <th scope="row">{{ review.movie.title }}</th>
       <td>{{ review.title }}</td>
       <td>{{ review.username }}</td>
-      <td>{{ review.updated_at }}</td>
+      <td>{{ review.created_at }}</td>
+      <td v-if="review.created_at !== review.updated_at">{{ review.updated_at }}</td>
+      <td v-else>수정되지 않음</td>
   </div>
 </template>
 

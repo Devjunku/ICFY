@@ -27,7 +27,10 @@ def movie_index(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
+# 로그인한 사용자만 볼 수 있도록
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
     serializer = MovieListSerializer(movie)
@@ -35,6 +38,8 @@ def movie_detail(request, movie_id):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def community(request, movie_id):
     # GET 방식이면 리뷰를 보는 행위
     if request.method == 'GET':
