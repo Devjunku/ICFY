@@ -5,13 +5,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MaxValu
 # Create your models here.
 
 class Movie(models.Model):
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes_movies')
     adult = models.BooleanField()
-    # genre_id
+    genre_ids = models.TextField()
     popularity = models.DecimalField(max_digits=20, decimal_places=10)
     title = models.CharField(max_length=100)
     overview = models.TextField()
     poster_path = models.TextField(null=True)
     vote_average = models.DecimalField(max_digits=4, decimal_places=2)
+    vote_count = models.PositiveIntegerField()
     # upcoming 같은 것을 저장할 필드를 추가할 예정이다.
 
     def __str__(self):

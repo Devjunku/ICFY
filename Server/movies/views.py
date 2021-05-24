@@ -1,3 +1,4 @@
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -6,9 +7,16 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+from django.contrib.auth import get_user_model
 from django.shortcuts import  get_object_or_404, get_list_or_404
 from .models import Movie, Review, Comment
 from .serializers import MovieListSerializer, ReviewListSerializer, CommentSerializer
+
+# 머신러닝을 위한 module
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -90,6 +98,7 @@ def review_detail(request, review_pk):
             serializer.save()
             return Response(serializer.data)
 
+
 @api_view(['DELETE', 'PUT'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -105,6 +114,7 @@ def change_comment(request, comment_id):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
 
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -124,3 +134,34 @@ def profile_info(request, user_id):
         comment_serializer = CommentSerializer(comments, many=True)
         # [{}, {}] 이런 형태로 들어오는데 이렇게 해줘야 구분할 수 있다.
         return Response({'review': review_serializer.data, 'comment': comment_serializer.data})
+
+
+def get_recommend_movie_list(movie, movies, similar, top=30):
+    search_movie_idx = movie.index.values
+    print(search_movie_idx)
+    similar_idx = similar[search_movie_idx, :top].reshape(-1)
+    print(similar_idx)
+    similar_idx = similar_idx[similar_idx != search_movie_idx] # 제목이 movie_title 인 영화 제외
+    result = movies.iloc[similar_idx].sort_values('popularity', ascending=False)[:10]
+    return result
+
+
+@api_view(['GET'])
+# 아직은 프로토 타입
+# @authentication_classes([JSONWebTokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def recommend(request, movie_id):
+    if Movie.objects.get(id=movie_id):
+        
+        movies = pd.DataFrame(list(Movie.objects.all().values()))
+        movie = movies[movies['id'] == movie_id]
+        
+        transformer = CountVectorizer()
+        genres_vector = transformer.fit_transform(movies['genre_ids'])
+        similar = cosine_similarity(genres_vector, genres_vector)
+        similar = similar.argsort()
+        similar = similar[:, ::-1]
+        res = get_recommend_movie_list(movie, movies, similar)
+
+        # 아직은 프로토 타입
+        return Response(res)
