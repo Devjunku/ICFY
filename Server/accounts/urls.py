@@ -9,8 +9,17 @@ urlpatterns = [
     # path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('api-token-auth/',  obtain_jwt_token),
-    path('<str:username>/', views.profile, name='profile'),
+    
+    # 둘을 같게 해주었더니 앞의 url로만 요청이 간다.
+    # path('check/<str:username>/', views.check, name='check'),
+    # path('check/<int:user_id>/', views.find_username, name='find_username'),
+    
     path('check/<str:username>/', views.check, name='check'),
+    path('find/<int:user_id>/', views.find_username, name='find_username'),
+
+    path('profile/<str:username>/', views.profile, name='profile'),
+    path('followinfo/<int:user_id>/', views.follow, name='follow'),
+    path('follow/<int:user_id>/', views.follow_change, name='follow_change'),
     # path('delete/', views.delete, name='delete'),
     # path('update/', views.update, name='update'),
     # path('password/', views.change_password, name='change_password'),

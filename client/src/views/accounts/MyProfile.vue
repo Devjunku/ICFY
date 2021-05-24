@@ -8,13 +8,13 @@
     <h3>작성한 리뷰</h3>
      <ProfileReview
          v-for="(review, idx) in reviews" 
-        :key="idx"
+        :key="idx+'a'"
         :review="review"
       />  
     <h3>작성한 댓글</h3>
     <ProfileComment
          v-for="(comment, idx) in comments" 
-        :key="idx"
+        :key="idx+'b'"
         :comment="comment"
       />  
   </div>

@@ -6,6 +6,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+from django.contrib.auth import get_user_model
 from django.shortcuts import  get_object_or_404, get_list_or_404
 from .models import Movie, Review, Comment
 from .serializers import MovieListSerializer, ReviewListSerializer, CommentSerializer
@@ -123,4 +124,7 @@ def profile_info(request, user_id):
         review_serializer = ReviewListSerializer(reviews,  many=True)
         comment_serializer = CommentSerializer(comments, many=True)
         # [{}, {}] 이런 형태로 들어오는데 이렇게 해줘야 구분할 수 있다.
-        return Response({'review': review_serializer.data, 'comment': comment_serializer.data})
+        return Response({
+            'review': review_serializer.data,
+            'comment': comment_serializer.data,
+        })
