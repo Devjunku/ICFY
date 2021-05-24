@@ -30,15 +30,28 @@ export default {
     }
   },
   methods: {
+     setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+      return config
+    },
     showMovieDetail: function () {
       axios({
         method: 'get',
         url: 'http://127.0.0.1:8000/movies/' + this.$route.params.movieId,
+        headers: this.setToken(),
       })
       .then(res => {
         console.log(res)
         this.movie = res.data
         this.moviePosterPath = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+      })
+      .catch(err => {
+        console.log(err)
+        // 도움말에 적기
+        this.$router.push({name: 'Login'})
       })
     },
     goToReview: function () {

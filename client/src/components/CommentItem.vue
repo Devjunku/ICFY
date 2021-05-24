@@ -7,9 +7,13 @@
     </div>
     <div v-else>
       <span>{{ comment.content }}</span>
-      <button @click="makeInput">댓글 수정</button>
+      <br>
+      <span>작성 시간: {{ comment.created_at }}</span>
+      <!--수정되었을 경우에만 수정 시간을 보여준다. -->
+      <span v-if="comment.created_at !== comment.updated_at">수정 시간: {{ comment.updated_at }}</span>
+      <button v-if="requestUser.id === comment.user" @click="makeInput">댓글 수정</button>
     </div>
-    <button @click="deleteComment">댓글 삭제</button> 
+    <button v-if="requestUser.id === comment.user" @click="deleteComment">댓글 삭제</button> 
   </div>
 </template>
 
@@ -76,7 +80,12 @@ export default {
           console.log(err)
         })
     }, 
-  }
+  },
+  computed: {
+    requestUser: function () {
+      return this.$store.state.userinfo
+    }
+  },
 }
 </script>
 

@@ -80,10 +80,18 @@ export default {
     }
   },
   methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const config = {
+        Authorization: `JWT ${token}`
+      }
+      return config
+    },
     requestReviews: function () {
       axios({
         url: 'http://127.0.0.1:8000/movies/' + this.$route.params.movieId +'/community/',
         method: 'get',
+        headers: this.setToken(),
       })
       .then(res => {
         console.log(res)
@@ -91,6 +99,7 @@ export default {
       })
       .catch(err => {
           console.log(err)
+          this.$router.push({name: 'Login'})
         })
     },
     goWriteReview: function () {
