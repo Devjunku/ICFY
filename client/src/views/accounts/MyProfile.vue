@@ -3,6 +3,8 @@
     <br>
     <br>
     <h1>{{ userinfo.username }}의 프로필</h1>
+    <button class="btn btn-warning me-3">비밀번호 변경</button>
+    <button class="btn btn-danger">회원 탈퇴</button>
     <h3>작성한 리뷰</h3>
      <ProfileReview
          v-for="(review, idx) in reviews" 
