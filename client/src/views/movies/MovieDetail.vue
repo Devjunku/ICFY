@@ -16,6 +16,7 @@
     <div class="text-warning">
       평점: {{ movie.vote_average }}
     </div>
+    <i :class="heartClass"></i>
     <div class="m-4">
       <button class="btn btn-warning" @click="goToReview">리뷰보기</button>
     </div>
@@ -40,6 +41,7 @@ export default {
     return {
       movie: null,
       moviePosterPath: null,
+      heartClass: "far fa-2x fa-heart heart",
     }
   },
   methods: {
@@ -77,6 +79,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.heart {
+  color: crimson;
+}
 </style>

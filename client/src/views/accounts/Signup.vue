@@ -55,7 +55,7 @@ export default {
     storeUserInfo: function () {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8000/accounts/${this.username}/`,
+        url: `http://127.0.0.1:8000/accounts/profile/${this.username}/`,
         headers: this.setToken(),
       })
       .then(res => {

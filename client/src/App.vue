@@ -11,7 +11,11 @@
         <div v-else id="guide" v-text="loginGuide"></div>
       </div>   
       <div>
+        {{userinfo}}
         <ul v-if="isLogin" class="navbar-nav">
+          <!-- <li v-if="userinfo.is_superuser" class="nav-item mx-2">
+            <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light">관리자 모드</div>
+          </li> -->
           <li class="nav-item mx-2">
             <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light">내 프로필</router-link>
           </li>
@@ -41,7 +45,7 @@ export default {
   data: function() {
     return {
       loginGuide: "반갑습니다! 로그인을 하신다면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!",
-      mainGuide: "로맨스 영화를 좋아하는 admin님 이 영화는 어떠신가요? 마음에 드시면 빨간 버튼을 눌러보세요! 파란 버튼을 눌러서 다른 영화를 추천받을 수도 있습니다.",
+      mainGuide: "로맨스 영화를 좋아하는 admin님 이 영화는 어떠신가요? 마음에 드시면 빨간 버튼을 눌러보세요! 파란 버튼을 눌러서 다른 영화를 추천받을 수도",
        isLogin: false,
     } 
   },
@@ -51,6 +55,9 @@ export default {
       localStorage.removeItem('jwt')
       this.$router.push({ name: 'Movies' })
     },
+    goToAdmin: function () {
+      window.location.href = "http://127.0.0.1:8000/admin"
+    },
   },
   created: function () {
     const token = localStorage.getItem('jwt')
@@ -58,6 +65,11 @@ export default {
       this.isLogin = true
     }
   },
+  // computed: {
+  //   userinfo: function () {
+  //     return this.$store.state.userinfo
+  //   }
+  // },
 }
 </script>
 
