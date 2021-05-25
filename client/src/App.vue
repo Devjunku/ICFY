@@ -12,8 +12,8 @@
       </div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
-          <i v-if="posterMode" class="fas fa-portrait fa-2x" @click="modeToggle"></i>
-          <i v-else class="far fa-newspaper fa-2x" @click="modeToggle"></i>
+          <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
+          <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
 
           <li v-if="userinfo.is_superuser" class="nav-item mx-2">
             <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">관리자 모드</div>
@@ -26,9 +26,9 @@
           </li>
         </ul>
         <ul v-else class="navbar-nav">
-          <i v-if="posterMode" class="fas fa-portrait fa-2x" @click="modeToggle"></i>
-          <i v-else class="far fa-newspaper fa-2x" @click="modeToggle"></i>
-          
+          <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
+          <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
+
           <li class="nav-item mx-2">
             <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">회원가입</router-link>
           </li>
