@@ -16,7 +16,7 @@
     <div class="text-warning">
       평점: {{ movie.vote_average }}
     </div>
-    <i :class="heartClass"></i>
+    <i :class="heartClass" @click="toggleHeart"></i>
     <div class="m-4">
       <button class="btn btn-warning" @click="goToReview">리뷰보기</button>
     </div>
@@ -71,7 +71,28 @@ export default {
     },
     goToReview: function () {
       this.$router.push({name: 'ReviewPage', params: { movieId: this.movie.id}})
-    }
+    },
+    toggleHeart:  function () {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/movies/like/' + this.$route.params.movieId +'/',
+        headers: this.setToken(),
+      })
+      .then(res => {
+        console.log(res)
+        if ( res.data.flag === 1) {
+          this.heartClass = "fas fa-2x fa-heart heart"
+        } else {
+          this.heartClass = "far fa-2x fa-heart heart"
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
+
+
   },
   created: function () {
     this.showMovieDetail()

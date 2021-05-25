@@ -163,3 +163,36 @@ def recommend(request, movie_id):
 
         # 아직은 프로토 타입
         return Response(res)
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def like_movie(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    me = request.user
+    # 목록에 있다.
+    flag = 1
+    # 요청을 보낸 유저의 좋아요 목록에 이 영화가 있다면
+    if me.like_movies.filter(id=movie_id).exists():
+        # 목록에서 빼기
+        me.like_movies.remove(movie)
+        # 이제 없다.
+        flag = 0
+    # 없다면
+    else:
+        # 목록에 넣기
+        me.like_movies.add(movie)
+
+    movies = me.like_movies.all()
+    serializer = MovieListSerializer(movies,  many=True)
+    return Response({"serialzier": serializer.data, "flag": flag}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def show_like_movies(request):
+    me = request.user
+    movies = me.like_movies.all()
+    serializer = MovieListSerializer(movies,  many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
