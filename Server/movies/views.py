@@ -176,14 +176,23 @@ def like_movie(request, movie_id):
         me.like_movies.remove(movie)
         # 이제 없다.
         flag = 0
+
+        # vote_number에서 하나 빼기
+        movie.vote_count -= 1
+        # save까지 해주어야 db에 저장된다.
+        movie.save()
+
     # 없다면
     else:
         # 목록에 넣기
         me.like_movies.add(movie)
 
+        # vote_number에서 하나 더하기
+        movie.vote_count += 1
+        movie.save()
+
     movies = me.like_movies.all()
-    serializer = MovieListSerializer(movies,  many=True)
-    return Response({"serialzier": serializer.data, "flag": flag}, status=status.HTTP_200_OK)
+    return Response({"flag": flag, "vote_count": movie.vote_count}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -227,3 +236,13 @@ def search(request):
     results = Movie.objects.filter(title__icontains=search)
     serializer = MovieListSerializer(results, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def show_like_other_movies(request, user_id):
+    person = get_object_or_404(get_user_model(), id=user_id)
+    movies = person.like_movies.all()
+    serializer = MovieListSerializer(movies,  many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

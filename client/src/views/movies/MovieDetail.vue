@@ -79,20 +79,17 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
-        console.log(res)
         if ( res.data.flag === 1) {
           this.heartClass = "fas fa-2x fa-heart heart"
         } else {
           this.heartClass = "far fa-2x fa-heart heart"
         }
+        this.movie.vote_count = res.data.vote_count
       })
       .catch(err => {
         console.log(err)
       })
     },
-
-
-
   },
   created: function () {
     this.showMovieDetail()

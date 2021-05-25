@@ -1,19 +1,20 @@
 <template>
   <div id="app">
     <nav class="navbar transparent8 navbar-expand fixed-top navbar-dark d-flex justify-content-between">
-      <div class="ms-3">
-        <router-link :to="{ name: 'Movies'}" class="navbar-brand">
-          <img src="./assets/icfy.png" alt="logo image" height="40">
-        </router-link>  
-      </div>
-      <div>
-        <div v-if="isLogin" id="guide" v-text="mainGuide"></div>
-        <div v-else id="guide" v-text="loginGuide"></div>
+      
+      <div class="nav-left">
+        <div class="ms-3">
+          <router-link :to="{ name: 'Movies'}" class="navbar-brand">
+            <img src="./assets/icfy.png" alt="logo image" height="40">
+          </router-link>  
+        </div>
         <div>
           <input type="text" v-model.trim="search" @keyup.enter="showMap">
-        </div>
           <button @click="showMap">검색</button>
+        </div>
       </div>
+
+      <div v-text="guide"></div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
@@ -53,8 +54,6 @@ export default {
   name: 'App',
   data: function() {
     return {
-      loginGuide: "반갑습니다! 로그인을 하신다면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!",
-      mainGuide: "로맨스 영화를 좋아하는 admin님 이 영화는 어떠신가요? 마음에 드시면 빨간 버튼을 눌러보세요! 파란 버튼을 눌러서 다른 영화를 추천받을 수도",
       isLogin: false,
       search: null,
     }
@@ -62,6 +61,7 @@ export default {
   methods: {
     logout: function () {
       this.isLogin = false
+      this.$store.dispatch('logoutGuide')
       localStorage.removeItem('jwt')
       this.$router.push({ name: 'Movies' })
     },
@@ -95,6 +95,9 @@ export default {
     },
     posterMode: function () {
       return this.$store.state.posterMode
+    },
+    guide: function () {
+      return this.$store.state.guide
     },
   },
 
@@ -145,5 +148,9 @@ export default {
 
 i:hover {
   color: skyblue; 
+}
+
+.nav-left {
+  display: flex;
 }
 </style>

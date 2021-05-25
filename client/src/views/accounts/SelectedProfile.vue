@@ -29,6 +29,18 @@
       />  
     </div>
 
+    <h3>좋아요 누른 영화들</h3>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-6 g-4">
+        <MoviesList
+        v-for="(movie, idx) in likedMovies" 
+            :key="idx+'c'"
+            :movie="movie"
+        />
+      </div>
+    </div>
+
+
     <h3>작성한 리뷰</h3>
      <ProfileReview
          v-for="(review, idx) in reviews"
@@ -50,6 +62,7 @@ import axios from 'axios'
 import ProfileReview from '@/components/ProfileReview'
 import ProfileComment from '@/components/ProfileComment'
 import FollowItem from '@/components/FollowItem'
+import MoviesList from '@/components/MoviesList'
 
 
 export default {
@@ -58,6 +71,7 @@ export default {
     ProfileReview,
     ProfileComment,
     FollowItem,
+    MoviesList
   },
   data: function() {
     return {
@@ -70,6 +84,7 @@ export default {
     showFollower: false,
     showFollowing: false,
     username: null,
+    likedMovies: [],
     }
   },
   methods: {
@@ -162,6 +177,20 @@ export default {
         this.showFollowing = true
       }
     },
+    toggleHeart:  function () {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/movies/like/show/${this.$route.params.userId}/`,
+        headers: this.setToken(),
+      })
+      .then(res => {
+        console.log(res.data)
+        this.likedMovies = res.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
   },
   computed:  {
     userinfo: function () {
@@ -172,6 +201,7 @@ export default {
     this.searchInfo()
     this.searchFollow()
     this.searchUserName()
+    this.toggleHeart()
   },
 }
 </script>
