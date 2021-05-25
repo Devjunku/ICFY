@@ -16,22 +16,28 @@
       </div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
+          <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
+          <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
+
           <li v-if="userinfo.is_superuser" class="nav-item mx-2">
-            <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light">관리자 모드</div>
+            <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">관리자 모드</div>
           </li>
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light">내 프로필</router-link>
+            <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">내 프로필</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link @click.native="logout" to="#" class="nav-link text-decoration-none fw-bold text-light">로그아웃</router-link>
+            <router-link @click.native="logout" to="#" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그아웃</router-link>
           </li>
         </ul>
         <ul v-else class="navbar-nav">
+          <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
+          <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
+
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light">회원가입</router-link>
+            <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">회원가입</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'Login'}" class="nav-link text-decoration-none fw-bold text-light">로그인</router-link>
+            <router-link :to="{ name: 'Login'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그인</router-link>
           </li>
         </ul>
       </div>
@@ -62,6 +68,17 @@ export default {
     goToAdmin: function () {
       window.location.href = "http://127.0.0.1:8000/admin"
     },
+    makeBlue: function (event) {
+      event.target.classList.replace("text-light","text-primary")
+    },
+    makeWhite: function (event) {
+      event.target.classList.replace("text-primary","text-light")
+    },
+    // 중앙에 저장하겠다.
+    modeToggle: function () {
+      this.$store.dispatch('modeToggle')
+    },
+  },
     showMap: function () {
       this.$store.state.search = this.search
       this.$router.push({ name: 'SearchResult',  params: { searchKeyword: this.search }, query: { t: new Date().getTime()} })
@@ -76,8 +93,12 @@ export default {
   computed: {
     userinfo: function () {
       return this.$store.state.userinfo
-    }
+    },
+    posterMode: function () {
+      return this.$store.state.posterMode
+    },
   },
+
 }
 </script>
 
@@ -121,5 +142,9 @@ export default {
 
 #guide {
   padding: 5px;
+}
+
+i:hover {
+  color: skyblue; 
 }
 </style>

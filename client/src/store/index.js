@@ -19,6 +19,7 @@ export default new Vuex.Store({
     review: null,
     username: null,
     userinfo: [],
+    posterMode: true,
     search: null,
   },
   mutations: {
@@ -34,6 +35,13 @@ export default new Vuex.Store({
     STORE_USERINFO: function (state, userInfo) {
     state.userinfo = userInfo
     },
+    MODE_TOGGLE: function (state) {
+      if (state.posterMode === true) {
+        state.posterMode = false
+      } else {
+        state.posterMode = true
+      }
+      },
   },
   actions: {
     createMovies: function ({commit}) {
@@ -54,6 +62,9 @@ export default new Vuex.Store({
     },
     storeUserInfo: function ({ commit }, userInfo) {
       commit('STORE_USERINFO', userInfo)
+    },
+    modeToggle: function ({ commit }) {
+      commit('MODE_TOGGLE')
     },
   },
   modules: {
