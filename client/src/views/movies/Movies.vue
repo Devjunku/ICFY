@@ -24,7 +24,10 @@ export default {
   computed: {
     movies: function () {
       return this.$store.state.movies
-    }
+    },
+    posterMode: function () {
+      return this.$store.state.posterMode
+    },
   },
   mounted() {
     this.$store.dispatch('createMovies')

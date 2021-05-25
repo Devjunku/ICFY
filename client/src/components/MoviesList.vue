@@ -18,16 +18,18 @@ export default {
   computed: {
     moviePosterPath: function () {
       return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
-    }
+    },
   },
   methods: {
     showMovieDetail: function () {
       this.$router.push({name: 'MovieDetail', params: { movieId: this.movie.id}})
-    }
+    },
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+img:hover {
+  border: 2px solid #00e054;
+}
 </style>

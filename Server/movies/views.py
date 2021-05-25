@@ -197,7 +197,7 @@ def show_like_movies(request):
     serializer = MovieListSerializer(movies,  many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @api_view(['POST'])
+@api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def similarity(request, movie_id):
