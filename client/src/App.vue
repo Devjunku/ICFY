@@ -100,7 +100,6 @@ export default {
       return this.$store.state.guide
     },
   },
-
 }
 </script>
 
