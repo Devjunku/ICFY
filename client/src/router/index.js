@@ -10,6 +10,7 @@ import SelectedProfile from '@/views/accounts/SelectedProfile'
 import CreateReview from '@/views/movies/CreateReview.vue'
 import ReviewDetail from '@/views/movies/ReviewDetail.vue'
 import UpdateReview from '@/views/movies/UpdateReview.vue'
+import SearchResult from '@/views/movies/SearchResult.vue'
 
 
 
@@ -62,9 +63,14 @@ const routes = [
     component: ReviewDetail,
   },
   {
-    path: '/community/:reviewId/update',
+    path: '/community/:reviewId/update/',
     name: 'UpdateReview',
     component: UpdateReview,
+  },
+  {
+    path: '/searchresult/:searchKeyword/',
+    name: 'SearchResult',
+    component: SearchResult,
   },
 ]
 

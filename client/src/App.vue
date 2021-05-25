@@ -9,6 +9,10 @@
       <div>
         <div v-if="isLogin" id="guide" v-text="mainGuide"></div>
         <div v-else id="guide" v-text="loginGuide"></div>
+        <div>
+          <input type="text" v-model.trim="search" @keyup.enter="showMap">
+        </div>
+          <button @click="showMap"></button>
       </div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
@@ -46,7 +50,8 @@ export default {
       loginGuide: "반갑습니다! 로그인을 하신다면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!",
       mainGuide: "로맨스 영화를 좋아하는 admin님 이 영화는 어떠신가요? 마음에 드시면 빨간 버튼을 눌러보세요! 파란 버튼을 눌러서 다른 영화를 추천받을 수도",
       isLogin: false,
-    } 
+      search: null,
+    }
   },
   methods: {
     logout: function () {
@@ -57,7 +62,11 @@ export default {
     goToAdmin: function () {
       window.location.href = "http://127.0.0.1:8000/admin"
     },
-  },
+    showMap: function () {
+      this.$store.state.search = this.search
+      this.$router.push({ name: 'SearchResult',  params: { searchKeyword: this.search }, query: { t: new Date().getTime()} })
+      }
+    },
   created: function () {
     const token = localStorage.getItem('jwt')
     if (token) {
