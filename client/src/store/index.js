@@ -20,7 +20,8 @@ export default new Vuex.Store({
     username: null,
     userinfo: [],
     posterMode: true,
-    guide: "로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!"
+    guide: "도움말: 로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!",
+    showGuide: true,
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
@@ -43,11 +44,35 @@ export default new Vuex.Store({
       }
     },
     LOGIN_GUIDE: function (state) {
-      state.guide = "도움말 오른쪽의 아이콘을 클릭하면 영화의 레이아웃을 변경할 수 있습니다."
+      state.guide = "도움말: 오른쪽의 아이콘을 클릭하면 영화의 레이아웃을 변경할 수 있습니다."
     },
     LOGOUT_GUIDE: function (state) {
-      state.guide = "로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!"
-    }
+      state.guide = "도움말: 로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!"
+    },
+    MY_PROFILE_GUIDE: function (state) {
+      state.guide = "도움말: 초록색 버튼을 눌러 도움말 버튼을 끌 수 있습니다."
+    },
+    OTHER_PROFILE_GUIDE: function (state) {
+      state.guide = "도움말: 파란색 버튼을 눌러 다른 사람을 팔로우할 수 있습니다."
+    },
+    REVIEW_PAGE_GUIDE: function (state) {
+      state.guide = "도움말: 제목을 클릭하면 리뷰를, 작성자를 클릭하면 프로필을 볼 수 있습니다."
+    },
+    REVIEW_DETAIL_GUIDE: function (state) {
+      state.guide = "도움말: 댓글은 작성하고 수정, 삭제할 수 있습니다."
+    },
+    CREATE_REVIEW_GUIDE: function (state) {
+      state.guide = "도움말: 별을 클릭해서 0점부터 10점까지 평점을 줄 수 있습니다."
+    },
+    MOVIE_DETAIL_GUIDE: function (state) {
+      state.guide = "도움말: 이 영화가 마음에 드신다면 보라색 버튼을 눌러서 볼 수 있는 곳을 알 수 있습니다."
+    },
+    MAIN_GUIDE: function (state) {
+      state.guide = "도움말: 오른쪽의 아이콘을 클릭하면 영화의 레이아웃을 변경할 수 있습니다."
+    },
+    GUIDE_TOGGLE: function (state) {
+      state.showGuide = !state.showGuide
+    },
   },
   actions: {
     createMovies: function ({commit}) {
@@ -78,6 +103,30 @@ export default new Vuex.Store({
     logoutGuide: function ({ commit }) {
       commit('LOGOUT_GUIDE')
     },
+    myProfileGuide: function ({ commit }) {
+      commit('MY_PROFILE_GUIDE')
+    },
+    otherProfileGuide: function ({ commit }) {
+      commit('OTHER_PROFILE_GUIDE')
+    },
+    reviewPageGuide: function ({ commit }) {
+      commit('REVIEW_PAGE_GUIDE')
+    },
+    reviewDetailGuide: function ({ commit }) {
+      commit('REVIEW_DETAIL_GUIDE')
+    },
+    createReviewGuide: function ({ commit }) {
+      commit('CREATE_REVIEW_GUIDE')
+    },
+    movieDetailGuide: function ({ commit }) {
+      commit('MOVIE_DETAIL_GUIDE')
+    },
+    mainGuide: function ({ commit }) {
+      commit('MAIN_GUIDE')
+    },
+    guideToggle: function ({ commit }) {
+      commit('GUIDE_TOGGLE')
+    }, 
   },
   modules: {
   }

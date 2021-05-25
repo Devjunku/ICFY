@@ -57,6 +57,9 @@ export default {
       value10 : true,
     }
   },
+  created: function () {
+    this.$store.dispatch('createReviewGuide')
+  },
   methods: {
     setToken: function () {
       const token = localStorage.getItem('jwt')

@@ -14,20 +14,20 @@
       </div>
     </figure>
     <div class="text-warning">
-      평점: {{ movie.vote_average }} / 추천수 : {{ movie.vote_count }}
+      평점: {{ movie.vote_average }} / 참여자 수 : {{ movie.vote_count }}
     </div>
     <i :class="heartClass" @click="toggleHeart"></i>
     <div class="m-4">
-      <button class="btn btn-warning" @click="goToReview">리뷰보기</button>
+      <button class="btn btn-warning reviewBtn" @click="goToReview">리뷰보기</button>
     </div>
     <div class="mb-3">
       <a :href="'https://www.justwatch.com/kr/검색?q='+movie.title" target="_blank">
-        <button class="btn btn-light">어디서 볼 수 있나요?</button>
+        <button class="btn btn-light watchBtn">어디서 볼 수 있나요?</button>
       </a>
     </div>
     <div>
       <a :href="'https://www.youtube.com/results?search_query='+movie.title" target="_blank">
-        <button class="btn btn-danger">관련된 유튜브 동영상 보기</button>
+        <button class="btn btn-danger youtubeBtn">관련된 유튜브 동영상 보기</button>
       </a>
     </div>
   </div>
@@ -93,6 +93,7 @@ export default {
   },
   created: function () {
     this.showMovieDetail()
+    this.$store.dispatch('movieDetailGuide')
   },
 }
 </script>
@@ -101,4 +102,20 @@ export default {
 .heart {
   color: crimson;
 }
+
+.watchBtn {
+  color:white;
+  background-color: rebeccapurple;
+  border: black;
+}
+
+.watchBtn:hover {
+  border: solid 1px #e000c2;
+}
+
+.reviewBtn {
+  font-weight: 700;
+}
+
+
 </style>

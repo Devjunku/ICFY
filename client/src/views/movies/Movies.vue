@@ -40,6 +40,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('createMovies')
+    this.$store.dispatch('mainGuide')
   }
 }
 </script>

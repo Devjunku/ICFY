@@ -4,7 +4,9 @@
     <br>
     <h1>{{ userinfo.username }}의 프로필</h1>
     <button class="btn btn-warning me-3">비밀번호 변경</button>
-    <button class="btn btn-danger">회원 탈퇴</button>
+    <button class="btn btn-danger me-3">회원 탈퇴</button>
+    <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
+    <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
 
     <div>
       <h4>팔로워 수: {{followers_num}}</h4>
@@ -88,6 +90,9 @@ export default {
     }
   },
   methods: {
+    guideToggle: function () {
+      this.$store.dispatch('guideToggle')
+    },
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
@@ -161,12 +166,16 @@ export default {
   computed:  {
     userinfo: function () {
       return this.$store.state.userinfo
-    }
+    },
+    showGuide: function () {
+      return this.$store.state.showGuide
+    }, 
   },
   created: function () {
     this.searchInfo()
     this.searchFollow()
     this.toggleHeart()
+    this.$store.dispatch('myProfileGuide')
   },
 }
 </script>
