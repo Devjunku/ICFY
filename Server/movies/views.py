@@ -1,3 +1,4 @@
+from re import I
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -6,7 +7,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.shortcuts import  get_object_or_404, get_list_or_404
 from .models import Movie, Review, Comment
@@ -138,14 +139,14 @@ def get_recommend_movie_list(movie, movies, similar, top=30):
     search_movie_idx = movie.index.values
     similar_idx = similar[search_movie_idx, :top].reshape(-1)
     similar_idx = similar_idx[similar_idx != search_movie_idx] # 제목이 movie_title 인 영화 제외
-    result = movies.iloc[similar_idx].sort_values('popularity', ascending=False)[:10]
+    result = movies.iloc[similar_idx].sort_values('popularity', ascending=False)[:6]
     return result
 
 
 @api_view(['GET'])
 # 아직은 프로토 타입
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([JSONWebTokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def recommend(request, movie_id):
     if Movie.objects.get(id=movie_id):
 
@@ -159,8 +160,24 @@ def recommend(request, movie_id):
         similar = similar[:, ::-1]
         res = get_recommend_movie_list(movie, movies, similar)
 
-        # 아직은 프로토 타입
-        return Response(res)
+        res_dict = []
+        # print(list(res['id']))
+        for i in range(6):
+            r_d = {
+            'id': list(res['id'])[i],
+            'adult': list(res['adult'])[i],
+            'genre_ids': list(res['genre_ids'])[i],
+            'popularity': list(res['popularity'])[i],
+            'title': list(res['title'])[i],
+            'overview': list(res['overview'])[i],
+            'poster_path': list(res['poster_path'])[i],
+            'vote_average': list(res['vote_average'])[i],
+            'vote_count': list(res['vote_count'])[i],
+            }
+            res_dict.append(r_d)
+
+        return Response(res_dict)
+
 
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -214,7 +231,7 @@ def similarity(request, movie_id):
         N = len(similar[-1])
         for a in range(N-1):
             res += similar[-1][a]/N
-
+        
         return Response({
             '평균 유사성': res
         })

@@ -97,7 +97,6 @@ export default {
       return this.$store.state.posterMode
     },
   },
-
 }
 </script>
 
