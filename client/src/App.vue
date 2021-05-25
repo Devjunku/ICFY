@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div v-text="guide"></div>
+      <div v-if="showGuide" v-text="guide"></div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
@@ -61,7 +61,6 @@ export default {
   methods: {
     logout: function () {
       this.isLogin = false
-      this.$store.dispatch('logoutGuide')
       localStorage.removeItem('jwt')
       this.$router.push({ name: 'Movies' })
     },
@@ -99,6 +98,19 @@ export default {
     guide: function () {
       return this.$store.state.guide
     },
+    showGuide: function () {
+      return this.$store.state.showGuide
+    },
+  },
+  watch: {
+    isLogin: function () {
+      if (this.isLogin === true) {
+        this.$store.dispatch('loginGuide')
+      }
+      else {
+        this.$store.dispatch('logoutGuide')
+      }
+    }
   },
 }
 </script>
@@ -147,6 +159,7 @@ export default {
 
 i:hover {
   color: skyblue; 
+  cursor: pointer;
 }
 
 .nav-left {

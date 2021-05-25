@@ -108,6 +108,7 @@ export default {
   },
   created: function () {
     this.requestReviews()
+    this.$store.dispatch('reviewPageGuide')
   },
 
 }

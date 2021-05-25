@@ -5,6 +5,8 @@
     </div>
     <hr>
     <p>{{ review.content }}</p>
+    {{ requestUser.id }}
+    {{ review.user }}
     <div v-if="requestUser.id === review.user">
       <button @click="updateReview">리뷰 수정</button>
       <button @click="deleteReview">리뷰 삭제</button>
@@ -113,6 +115,7 @@ export default {
   },
   created: function () {
     this.showReviewDetail()
+    this.$store.dispatch('reviewDetailGuide')
   },
 }
 </script>

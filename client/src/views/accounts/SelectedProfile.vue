@@ -202,6 +202,7 @@ export default {
     this.searchFollow()
     this.searchUserName()
     this.toggleHeart()
+    this.$store.dispatch('otherProfileGuide')
   },
 }
 </script>

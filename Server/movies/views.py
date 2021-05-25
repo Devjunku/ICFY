@@ -61,6 +61,9 @@ def community(request, movie_id):
 @permission_classes([IsAuthenticated])
 def review_create(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
+    movie.vote_count += 1
+    movie.save()
+
     serializers = ReviewListSerializer(data=request.data)
     if serializers.is_valid(raise_exception = True):
         serializers.save(movie=movie, user=request.user)
@@ -87,6 +90,9 @@ def review_detail(request, review_pk):
 
     # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
     elif request.method == 'DELETE':
+        movie = Movie.objects.get(id=review.movie_id)
+        movie.vote_count -= 1
+        movie.save()
         review.delete()
         return Response({'movie_id': review.movie_id})
 
@@ -194,21 +200,11 @@ def like_movie(request, movie_id):
         # 이제 없다.
         flag = 0
 
-        # vote_number에서 하나 빼기
-        movie.vote_count -= 1
-        # save까지 해주어야 db에 저장된다.
-        movie.save()
-
     # 없다면
     else:
         # 목록에 넣기
         me.like_movies.add(movie)
 
-        # vote_number에서 하나 더하기
-        movie.vote_count += 1
-        movie.save()
-
-    movies = me.like_movies.all()
     return Response({"flag": flag, "vote_count": movie.vote_count}, status=status.HTTP_200_OK)
 
 

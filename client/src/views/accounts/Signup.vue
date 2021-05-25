@@ -7,7 +7,7 @@
           <input type="text" class="form-control" id="username" v-model="username" placeholder="아이디를 입력하세요">
       </div>
     </div>
-    <button class="btn btn-success mb-3" @click="checkId">아이디 중복 확인</button>
+    <button class="btn btn-success mb-3 greenBtn" @click="checkId">아이디 중복 확인</button>
     <div v-if="this.username">
       <div v-if="unchecked" class="text-danger mb-2" v-text="checkText"></div>
       <div v-else class="text-success mb-2" v-text="checkText"></div>
@@ -24,7 +24,7 @@
     </div>
     <div v-if="different" class="text-danger mt-3">두 비밀번호가 일치하지 않습니다.</div>
     <div class="mt-3">
-      <button class="btn btn-warning" @click="signup">회원가입</button>
+      <button class="btn btn-warning yellowBtn" @click="signup">회원가입</button>
     </div>
   </div>
 </template>
@@ -139,3 +139,15 @@ export default {
   }
 }
 </script>
+
+
+<style>
+.yellowBtn:hover {
+  border: solid 2px goldenrod;
+}
+
+.greenBtn:hover {
+  border: solid 1px #00e054;
+}
+
+</style>
