@@ -20,7 +20,11 @@ urlpatterns = [
     # DELETE : 특정 댓글 삭제
     path('comments/<int:comment_id>/', views.change_comment),
 
+    # 추천 영화
     path('<int:movie_id>/recommend/', views.recommend),
+
+    # 유저 유사도
+    path('<int:movie_id>/similarity/', views.similarity),
     # GET : 특정 유저가 작성한 리뷰 댓글 조회
     # 유저도 관련되지만 중점은 리뷰와 댓글이기에 이곳에 작성하겠다.
     path('profile/<int:user_id>/', views.profile_info),
@@ -29,5 +33,8 @@ urlpatterns = [
     path('like/<int:movie_id>/', views.like_movie),
     # like 기능 (마이 프로필에서 하트 누른 영화들 보여주기용)
     path('like/show/', views.show_like_movies),
+
+    # 검색 데이터 연산
+    path('search/', views.search),
 
 ]
