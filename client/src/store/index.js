@@ -20,7 +20,6 @@ export default new Vuex.Store({
     username: null,
     userinfo: [],
     posterMode: true,
-    search: null,
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {

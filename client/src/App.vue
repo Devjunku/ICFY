@@ -12,7 +12,7 @@
         <div>
           <input type="text" v-model.trim="search" @keyup.enter="showMap">
         </div>
-          <button @click="showMap"></button>
+          <button @click="showMap">검색</button>
       </div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
@@ -78,12 +78,11 @@ export default {
     modeToggle: function () {
       this.$store.dispatch('modeToggle')
     },
-  },
     showMap: function () {
-      this.$store.state.search = this.search
       this.$router.push({ name: 'SearchResult',  params: { searchKeyword: this.search }, query: { t: new Date().getTime()} })
-      }
-    },
+      this.search = ''
+    }
+  },
   created: function () {
     const token = localStorage.getItem('jwt')
     if (token) {
