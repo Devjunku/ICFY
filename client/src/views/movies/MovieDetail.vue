@@ -30,18 +30,36 @@
         <button class="btn btn-danger">관련된 유튜브 동영상 보기</button>
       </a>
     </div>
+    <br>
+    <hr>
+    <p> 이 영화는 어떠신가요? </p>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-6 g-4">
+        <MoviesList
+          v-for="(movie, idx) in recommend_movies" 
+          :key="idx"
+          :movie="movie"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import MoviesList from '@/components/MoviesList'
+
 export default {
   name: 'MovieDetail',
+  components: {
+    MoviesList
+  },
   data: function () {
     return {
       movie: null,
       moviePosterPath: null,
       heartClass: "far fa-2x fa-heart heart",
+      recommend_movies: []
     }
   },
   methods: {
@@ -59,7 +77,7 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.movie = res.data
         this.moviePosterPath = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
       })
@@ -79,7 +97,7 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         if ( res.data.flag === 1) {
           this.heartClass = "fas fa-2x fa-heart heart"
         } else {
@@ -90,12 +108,23 @@ export default {
         console.log(err)
       })
     },
-
-
-
+    recommend: function () {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/movies/${this.$route.params.movieId}/recommend`,
+      })
+      .then(res => {
+        console.log(res)
+        this.recommend_movies = res.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
   },
   created: function () {
     this.showMovieDetail()
+    this.recommend()
   },
 }
 </script>
