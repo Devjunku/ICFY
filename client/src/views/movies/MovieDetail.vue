@@ -13,8 +13,21 @@
         </div>
       </div>
     </figure>
+    <div class="text-warning">
+      평점: {{ movie.vote_average }}
+    </div>
     <div class="m-4">
       <button class="btn btn-warning" @click="goToReview">리뷰보기</button>
+    </div>
+    <div class="mb-3">
+      <a :href="'https://www.justwatch.com/kr/검색?q='+movie.title" target="_blank">
+        <button class="btn btn-light">어디서 볼 수 있나요?</button>
+      </a>
+    </div>
+    <div>
+      <a :href="'https://www.youtube.com/results?search_query='+movie.title" target="_blank">
+        <button class="btn btn-danger">관련된 유튜브 동영상 보기</button>
+      </a>
     </div>
   </div>
 </template>
