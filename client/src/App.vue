@@ -78,12 +78,11 @@ export default {
     modeToggle: function () {
       this.$store.dispatch('modeToggle')
     },
-  },
     showMap: function () {
       this.$store.state.search = this.search
       this.$router.push({ name: 'SearchResult',  params: { searchKeyword: this.search }, query: { t: new Date().getTime()} })
-      }
     },
+  },
   created: function () {
     const token = localStorage.getItem('jwt')
     if (token) {
@@ -98,7 +97,6 @@ export default {
       return this.$store.state.posterMode
     },
   },
-
 }
 </script>
 
