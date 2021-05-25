@@ -9,11 +9,12 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from django.db.models import Q
 from django.contrib.auth import get_user_model
-from django.shortcuts import  get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Review, Comment
 from .serializers import MovieListSerializer, ReviewListSerializer, CommentSerializer
 
 import pandas as pd
+import random
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -145,7 +146,11 @@ def get_recommend_movie_list(movie, movies, similar, top=30):
     search_movie_idx = movie.index.values
     similar_idx = similar[search_movie_idx, :top].reshape(-1)
     similar_idx = similar_idx[similar_idx != search_movie_idx] # 제목이 movie_title 인 영화 제외
-    result = movies.iloc[similar_idx].sort_values('popularity', ascending=False)[:6]
+    res_idx = list(similar_idx)
+    random.shuffle(res_idx)
+    input_idx = res_idx[:6]
+    result = movies.iloc[input_idx].sort_values('popularity', ascending=False)[:6]
+    print(result.index.values)
     return result
 
 
@@ -218,11 +223,13 @@ def show_like_movies(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+# @authentication_classes([JSONWebTokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def similarity(request, movie_id):
-    if Movie.like_users.filter(pk=request.user.pk).exist():
+    # 쿼리부터 막힘 내일 바로 하도록 합니다.(준규)
+    print(movie)
+    if not movie.like_users.filter(pk=request.user.pk).exists():
         user_like_movies = pd.DataFrame(list(Movie.like_users.filter(pk=request.user.pk).values()))
         movies = pd.DataFrame(list(Movie.objects.all().values()))
         movie = movies[movies['id'] == movie_id]
@@ -238,7 +245,7 @@ def similarity(request, movie_id):
             res += similar[-1][a]/N
         
         return Response({
-            '평균 유사성': res
+            'similar': res
         })
 
     return Response({ })
