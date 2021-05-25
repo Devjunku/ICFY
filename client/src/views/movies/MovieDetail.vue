@@ -97,17 +97,22 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
+<<<<<<< HEAD
         // console.log(res)
+=======
+>>>>>>> 296209641a471ee941e39cc750e1fca43f00279a
         if ( res.data.flag === 1) {
           this.heartClass = "fas fa-2x fa-heart heart"
         } else {
           this.heartClass = "far fa-2x fa-heart heart"
         }
+        this.movie.vote_count = res.data.vote_count
       })
       .catch(err => {
         console.log(err)
       })
     },
+<<<<<<< HEAD
     recommend: function () {
       axios({
         method: 'get',
@@ -121,6 +126,8 @@ export default {
         console.log(err)
       })
     },
+=======
+>>>>>>> 296209641a471ee941e39cc750e1fca43f00279a
   },
   created: function () {
     this.showMovieDetail()
