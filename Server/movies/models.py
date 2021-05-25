@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MaxValu
 # Create your models here.
 
 class Movie(models.Model):
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes_movies')
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
     adult = models.BooleanField()
     # genre_id
     genre_ids = models.TextField()

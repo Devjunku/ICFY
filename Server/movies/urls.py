@@ -24,4 +24,10 @@ urlpatterns = [
     # GET : 특정 유저가 작성한 리뷰 댓글 조회
     # 유저도 관련되지만 중점은 리뷰와 댓글이기에 이곳에 작성하겠다.
     path('profile/<int:user_id>/', views.profile_info),
+
+    # like 기능 (디테일에서 하트 표시용)
+    path('like/<int:movie_id>/', views.like_movie),
+    # like 기능 (마이 프로필에서 하트 누른 영화들 보여주기용)
+    path('like/show/', views.show_like_movies),
+
 ]
