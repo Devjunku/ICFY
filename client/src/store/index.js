@@ -20,6 +20,7 @@ export default new Vuex.Store({
     username: null,
     userinfo: [],
     posterMode: true,
+    guide: "로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!"
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
@@ -40,7 +41,13 @@ export default new Vuex.Store({
       } else {
         state.posterMode = true
       }
-      },
+    },
+    LOGIN_GUIDE: function (state) {
+      state.guide = "도움말 오른쪽의 아이콘을 클릭하면 영화의 레이아웃을 변경할 수 있습니다."
+    },
+    LOGOUT_GUIDE: function (state) {
+      state.guide = "로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!"
+    }
   },
   actions: {
     createMovies: function ({commit}) {
@@ -64,6 +71,12 @@ export default new Vuex.Store({
     },
     modeToggle: function ({ commit }) {
       commit('MODE_TOGGLE')
+    },
+    loginGuide: function ({ commit }) {
+      commit('LOGIN_GUIDE')
+    },
+    logoutGuide: function ({ commit }) {
+      commit('LOGOUT_GUIDE')
     },
   },
   modules: {

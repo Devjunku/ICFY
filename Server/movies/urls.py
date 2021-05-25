@@ -33,7 +33,8 @@ urlpatterns = [
     path('like/<int:movie_id>/', views.like_movie),
     # like 기능 (마이 프로필에서 하트 누른 영화들 보여주기용)
     path('like/show/', views.show_like_movies),
-
+    # like 기능 (다른 사람 프로필에서 하트 누른 영화들 보여주기용)
+    path('like/show/<int:user_id>/', views.show_like_other_movies),
     # 검색 데이터 연산
     path('search/', views.search),
 
