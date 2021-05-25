@@ -19,6 +19,7 @@ export default new Vuex.Store({
     review: null,
     username: null,
     userinfo: [],
+    search: null,
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {

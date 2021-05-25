@@ -136,9 +136,7 @@ def profile_info(request, user_id):
 
 def get_recommend_movie_list(movie, movies, similar, top=30):
     search_movie_idx = movie.index.values
-    print(search_movie_idx)
     similar_idx = similar[search_movie_idx, :top].reshape(-1)
-    print(similar_idx)
     similar_idx = similar_idx[similar_idx != search_movie_idx] # 제목이 movie_title 인 영화 제외
     result = movies.iloc[similar_idx].sort_values('popularity', ascending=False)[:10]
     return result
@@ -146,8 +144,8 @@ def get_recommend_movie_list(movie, movies, similar, top=30):
 
 @api_view(['GET'])
 # 아직은 프로토 타입
-# @authentication_classes([JSONWebTokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def recommend(request, movie_id):
     if Movie.objects.get(id=movie_id):
 
@@ -197,7 +195,8 @@ def show_like_movies(request):
     serializer = MovieListSerializer(movies,  many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-    @api_view(['POST'])
+
+@api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def similarity(request, movie_id):
@@ -221,3 +220,10 @@ def similarity(request, movie_id):
         })
 
     return Response({ })
+
+@api_view(['GET'])
+def search(request):
+    search = request.GET.get('q')
+    results = Movie.objects.filter(title__icontains=search)
+    serializer = MovieListSerializer(results, many=True)
+    return Response(serializer.data)
