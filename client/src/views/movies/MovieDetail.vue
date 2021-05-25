@@ -14,7 +14,7 @@
       </div>
     </figure>
     <div class="text-warning">
-      평점: {{ movie.vote_average }}
+      평점: {{ movie.vote_average }} / 추천수 : {{ movie.vote_count }}
     </div>
     <i :class="heartClass" @click="toggleHeart"></i>
     <div class="m-4">

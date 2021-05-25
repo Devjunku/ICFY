@@ -196,3 +196,28 @@ def show_like_movies(request):
     movies = me.like_movies.all()
     serializer = MovieListSerializer(movies,  many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def similarity(request, movie_id):
+    if Movie.like_users.filter(pk=request.user.pk).exist():
+        user_like_movies = pd.DataFrame(list(Movie.like_users.filter(pk=request.user.pk).values()))
+        movies = pd.DataFrame(list(Movie.objects.all().values()))
+        movie = movies[movies['id'] == movie_id]
+        user_like_movies = user_like_movies.append(movie)
+        
+        transformer = CountVectorizer()
+        genres_vector = transformer.fit_transform(user_like_movies['genre_ids'])
+        similar = cosine_similarity(genres_vector, genres_vector)
+        
+        res = 0
+        N = len(similar[-1])
+        for a in range(N-1):
+            res += similar[-1][a]/N
+
+        return Response({
+            '평균 유사성': res
+        })
+
+    return Response({ })
