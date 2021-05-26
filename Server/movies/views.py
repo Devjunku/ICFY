@@ -312,7 +312,7 @@ def similarity(request, movie_id):
             })
     else:
         return Response({
-                'similar': '좋아요를 누른 영화로 {request.user.username}님의 취향을 알아가 볼게요!'
+                'similar': f'좋아요를 누른 영화로 {request.user.username}님의 취향을 알아가 볼게요!'
             })
 
 @api_view(['GET'])
