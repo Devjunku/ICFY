@@ -66,10 +66,17 @@
       </div>
     <h3 class="d-flex justify-content-start">좋아요 누른 영화들</h3>
     <div class="container">
-      <div class="row row-cols-1 row-cols-md-6 g-4">
+      <div v-if="posterMode" class="row row-cols-1 row-cols-md-6 g-4">
         <MoviesList
         v-for="(movie, idx) in likeMovies" 
             :key="idx+'c'"
+            :movie="movie"
+        />
+      </div>
+      <div v-else>
+        <MoviesArticle
+        v-for="(movie, idx) in likeMovies" 
+            :key="idx+'d'"
             :movie="movie"
         />
       </div>
@@ -271,6 +278,9 @@ export default {
     showGuide: function () {
       return this.$store.state.showGuide
     }, 
+    posterMode: function () {
+      return this.$store.state.posterMode
+    },
   },
   created: function () {
     this.searchInfo()

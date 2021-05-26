@@ -23,6 +23,9 @@ urlpatterns = [
     # 추천 영화
     path('<int:movie_id>/recommend/', views.recommend),
 
+    # 하트 정보 가져오기
+    path('checkheart/<int:movie_id>/', views.checkHeart),
+
     # 유저 유사도
     path('<int:movie_id>/similarity/', views.similarity),
     # GET : 특정 유저가 작성한 리뷰 댓글 조회

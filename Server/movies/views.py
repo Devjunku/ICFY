@@ -294,3 +294,14 @@ def show_like_other_movies(request, user_id):
     serializer = MovieListSerializer(movies,  many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def checkHeart(request, movie_id):
+    flag = 0
+    # 좋아요 된 상황
+    if request.user.like_movies.filter(id=movie_id).exists():
+        flag =1 
+    return Response({'flag': flag}, status=status.HTTP_200_OK)
+

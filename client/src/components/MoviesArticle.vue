@@ -38,7 +38,7 @@ export default {
       return config
     },
     showMovieDetail: function () {
-      this.$router.push({name: 'MovieDetail', params: { movieId: this.movie.id}})
+      this.$router.push({name: 'MovieDetail', params: { movieId: this.movie.id}, query: { t: new Date().getTime()}})
     },
     toggleHeart:  function () {
       axios({
@@ -58,12 +58,48 @@ export default {
         console.log(err)
       })
     },
+    // 하트가 체크되었는지 확인하기
+    checkHeart: function () {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/movies/checkheart/' + this.movie.id +'/',
+        headers: this.setToken(),
+      })
+      .then(res => {
+        console.log(res)
+        // 좋아요가 있다면
+        if ( res.data.flag === 1) {
+          this.heartClass = "fas fa-2x fa-heart heart"
+        } else {
+          this.heartClass = "far fa-2x fa-heart heart"
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
   },
   computed: {
     moviePosterPath: function () {
       return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
     },
+    signal: function () {
+      return this.movie.poster_path
+    }
   },
+
+  watch: {
+    signal: function () {
+      this.checkHeart()
+    }
+  },
+
+  created() {
+    this.checkHeart()
+  },
+
+  
+
 }
 </script>
 

@@ -35,12 +35,19 @@
     <hr>
     <p> 이 영화는 어떠신가요? </p>
     <div class="container">
-      <div class="row row-cols-1 row-cols-md-6 g-4">
+      <div v-if="posterMode" class="row row-cols-1 row-cols-md-6 g-4">
         <MoviesList
           v-for="(movie, idx) in recommend_movies" 
-          :key="idx"
+          :key="idx+'a'"
           :movie="movie"
         />
+      </div>
+      <div v-else>
+        <MoviesArticle
+          v-for="(movie, idx) in recommend_movies" 
+          :key="idx+'b'"
+          :movie="movie"
+        />  
       </div>
     </div>
   </div>
@@ -49,10 +56,12 @@
 <script>
 import axios from 'axios'
 import MoviesList from '@/components/MoviesList'
+import MoviesArticle from '@/components/MoviesArticle'
 export default {
   name: 'MovieDetail',
   components: {
-    MoviesList
+    MoviesList,
+    MoviesArticle
   },
   data: function () {
     return {
@@ -136,6 +145,44 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    // 하트가 체크되었는지 확인하기
+    checkHeart: function () {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/movies/checkheart/' + this.$route.params.movieId +'/',
+        headers: this.setToken(),
+      })
+      .then(res => {
+        // 좋아요가 있다면
+        if ( res.data.flag === 1) {
+          this.heartClass = "fas fa-2x fa-heart heart"
+        } else {
+          this.heartClass = "far fa-2x fa-heart heart"
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+  },
+  computed: {
+    posterMode: function () {
+      return this.$store.state.posterMode
+    },
+    signal: function () {
+      return this.$route.params.movieId
+    }
+  },
+  watch: {
+    signal: function () {
+      this.showMovieDetail()
+      this.recommend()
+      this.similarIdx()
+      this.$store.dispatch('movieDetailGuide')
+      this.checkHeart()
+      // 이렇게 하면 클릭한 위치에 화면이 있어서 올려야 한다.
+      window.scrollTo(0,0) 
     }
   },
   created: function () {
@@ -143,6 +190,7 @@ export default {
     this.recommend()
     this.similarIdx()
     this.$store.dispatch('movieDetailGuide')
+    this.checkHeart()
   },
 }
 </script>
