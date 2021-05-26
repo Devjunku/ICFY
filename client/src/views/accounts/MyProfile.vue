@@ -11,7 +11,13 @@
       <button class="btn btn-warning" @click="passwordChange">확인</button>
     </div>
     <div v-text="message" class="text-warning mt-3"></div>
-    <button class="btn btn-danger me-3">회원 탈퇴</button>
+    <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
+    <div v-if="check">
+      <h5>회원 탈퇴를 하려면 비밀번호를 누르고 확인 버튼을 눌러주세요.</h5>
+      <input type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
+      <button class="btn btn-danger" @click="deleteUser">확인</button>
+    </div>
+    <div v-text="messageWarning" class="text-warning mt-3"></div>
     <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
     <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
 
@@ -98,7 +104,10 @@ export default {
     password: null,
     newPassword: null,
     newPasswordConfirmation: null,
-    message: ""
+    message: "",
+    check: false,
+    deleteUserPassword: null,
+    messageWarning: null,
     }
   },
   methods: {
@@ -210,8 +219,32 @@ export default {
       else {
         this.message = "바꿀 비밀번호 입력과 재입력이 일치하지 않습니다."
       }
+    },
+    deleteUserCheck: function () {
+      this.check = !this.check
+    },
+    deleteUser: function () {
+        axios({
+            method: 'delete',
+            url: 'http://127.0.0.1:8000/accounts/delete/',
+            data: {
+              password: this.deleteUserPassword
+            },
+            headers: this.setToken(),
+          })
+            .then(res => {
+              console.log(res)
+              if (res.data.message === 1) {
+                this.$store.dispatch('deleteUser')
+              }
+              else {
+                this.messageWarning = res.data.message
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
     }
-
   },
   computed:  {
     userinfo: function () {

@@ -112,3 +112,15 @@ def password(request):
     # 잘못된 현재 패스워드 입력
     else:
         return Response({"message": "현재 비밀번호가 틀렸습니다."}, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete(request):
+    password = request.data.get("password")
+    # 현재 패스워드 입력한 것이 맞는지 검증하기
+    if check_password(password, request.user.password):
+        request.user.delete()
+        return Response({"message": 1}, status=status.HTTP_200_OK)
+    else:
+        return Response({"message": "비밀번호가 틀렸습니다."}, status=status.HTTP_200_OK)

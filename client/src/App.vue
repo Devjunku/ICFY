@@ -104,6 +104,9 @@ export default {
     signal: function () {
       return this.$store.state.signal
     },
+    delete: function () {
+      return this.$store.state.delete
+    },
   },
   watch: {
     isLogin: function () {
@@ -117,7 +120,10 @@ export default {
     signal: function () {
       this.logout()
       this.$router.push({name: 'Login' , params: { case: 2}})
-    }
+    },
+    delete: function () {
+      this.logout()
+    },
   },
 }
 </script>
