@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <br>
+    <br>
+    <div class="d-flex">
+      <button class="btn btn-warning" @click="goBack"> 영화 정보 </button>
+    </div>
     <h1 class="d-flex justify-content-center my-5">Community</h1>
     <div class="row">
       <!-- Board -->
@@ -68,6 +73,9 @@ export default {
         Authorization: `JWT ${token}`
       }
       return config
+    },
+    goBack: function () {
+      this.$router.push({name: 'MovieDetail', params: { movieId: this.$route.params.movieId }})
     },
     requestReviews: function () {
       axios({

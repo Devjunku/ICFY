@@ -3,9 +3,12 @@
     <hr>
     <div class="parent" @click="showMovieDetail">
       <img :src="moviePosterPath" height="200px" alt="movie">
-      <div>
+      <div class="ms-3" v-if="movie.overview">
         <h2 class="movie-title mx-auto mb-5">{{ movie.title }}</h2>
         <h5 class="moive-overview mx-auto">{{ movie.overview }}</h5>
+      </div>
+      <div v-else class="d-flex justify-content-center">
+        <h2 class="movie-title ms-5 mb-5">{{ movie.title }} (해당 영화는 제공되는 줄거리가 없습니다.)</h2>
       </div>
     </div>
     <div class="d-flex flex-row-reverse">
