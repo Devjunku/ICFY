@@ -99,7 +99,7 @@ export default {
       })
       .catch(err => {
           console.log(err)
-          this.$router.push({name: 'Login'})
+          this.$router.push({name: 'Login' , params: { case: 1}})
         })
     },
     goWriteReview: function () {

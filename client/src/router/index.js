@@ -38,7 +38,7 @@ const routes = [
     component: Signup,
   },
   {
-    path: '/accounts/login/',
+    path: '/accounts/login/:case',
     name: 'Login',
     component: Login,
   },

@@ -10,6 +10,9 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('api-token-auth/',  obtain_jwt_token),
     
+    # 비밀번호 변경
+    path('password/', views.password, name='password'),
+
     # 둘을 같게 해주었더니 앞의 url로만 요청이 간다.
     # path('check/<str:username>/', views.check, name='check'),
     # path('check/<int:user_id>/', views.find_username, name='find_username'),
