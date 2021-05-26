@@ -115,7 +115,7 @@ import ProfileReview from '@/components/ProfileReview'
 import ProfileComment from '@/components/ProfileComment'
 import FollowItem from '@/components/FollowItem'
 import MoviesList from '@/components/MoviesList'
-
+import MoviesArticle from '@/components/MoviesArticle'
 
 
 export default {
@@ -124,7 +124,9 @@ export default {
     ProfileReview,
     ProfileComment,
     FollowItem,
-    MoviesList
+    MoviesList,
+    MoviesArticle
+
   },
   data: function() {
     return {

@@ -5,7 +5,7 @@
       <div class="nav-left">
         <div class="ms-3">
           <router-link :to="{ name: 'Movies'}" class="navbar-brand">
-            <img src="./assets/icfy.png" alt="logo image" height="40">
+            <img src="./assets/logo3.png" alt="logo image" height="40">
           </router-link>  
         </div>
         <div>
@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div v-if="showGuide" v-text="guide"></div>
+      <div v-if="showGuide" class="d-none d-lg-block" v-text="guide"></div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
