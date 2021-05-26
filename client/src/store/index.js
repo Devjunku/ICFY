@@ -67,7 +67,7 @@ export default new Vuex.Store({
       state.guide = "도움말: 별을 클릭해서 0점부터 10점까지 평점을 줄 수 있습니다."
     },
     MOVIE_DETAIL_GUIDE: function (state) {
-      state.guide = "도움말: 이 영화가 마음에 드신다면 보라색 버튼을 눌러서 볼 수 있는 곳을 알 수 있습니다."
+      state.guide = "도움말: 영화를 보고 싶다면 보라색 버튼을 눌러볼까요?"
     },
     MAIN_GUIDE: function (state) {
       state.guide = "도움말: 오른쪽의 아이콘을 클릭하면 영화의 레이아웃을 변경할 수 있습니다."
