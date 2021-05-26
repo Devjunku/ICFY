@@ -5,7 +5,7 @@
       <div class="nav-left">
         <div class="ms-3">
           <router-link :to="{ name: 'Movies'}" class="navbar-brand">
-            <img src="./assets/icfy.png" alt="logo image" height="40">
+            <img src="./assets/logo3.png" alt="logo image" height="40">
           </router-link>  
         </div>
         <div>
