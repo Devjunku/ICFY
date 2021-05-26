@@ -1,17 +1,33 @@
 <template>
-  <div v-if="review" class="container">
-    <div class="d-flex">
-      <p>{{ review.title }}</p>
-    </div>
+  <!-- col-8로 폭을 줄였다. -->
+  <div v-if="review" class="container col-8">
+    <br>
+      <h3>{{ review.title }}</h3>
     <hr>
-    <p>{{ review.content }}</p>
-    {{ requestUser.id }}
-    {{ review.user }}
-    <div v-if="requestUser.id === review.user">
-      <button @click="updateReview">리뷰 수정</button>
-      <button @click="deleteReview">리뷰 삭제</button>
+    <div class="d-flex flex-row-reverse">
+      <h4 class="me-5">작성자: {{ review.user }}</h4>
     </div>
-    <div>댓글들</div>
+    <div class="d-flex flex-row-reverse">
+      <h5>작성 시간: {{ format_date(review.created_at) }}</h5>
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <div v-if="review.created_at===review.updated_at" class="d-flex flex-row-reverse">
+        <h5>수정되지 않은 글</h5>
+      </div>
+      <div v-else>
+        <h5>수정 시간: {{ format_date(review.updated_at) }}</h5>
+      </div>
+    </div>
+    <br>
+    <h4>{{ review.content }}</h4>
+    <br>
+    <div class="d-flex flex-row-reverse" v-if="requestUser.id === review.user">
+      <button class="btn btn-warning me-3" @click="updateReview">리뷰 수정</button>
+      <button class="btn btn-danger" @click="deleteReview">리뷰 삭제</button>
+    </div>
+    <br>
+    <div class="text-warning fw-bold">Comments</div>
+    <br>
     <CommentItem
       v-for="(comment, idx) in comments" 
       :key="idx"
@@ -19,11 +35,13 @@
       @delete-comment="showReviewDetail"
       @update-comment="showReviewDetail"
     />
-     <div>
-      <label for="content">댓글: </label>
-      <input type="text" id="content" v-model="commentContent" @keyup.enter="createComment">
+    <br>
+    <br>
+    <div>
+      <label class="text-warning fw-bold" for="content">댓글: </label>
+      <input type="text" id="content" size="35" v-model="commentContent" @keyup.enter="createComment">
+      <button class="ms-3 btn btn-warning" @click="createComment">댓글 쓰기</button>
     </div>
-    <button @click="createComment">댓글 쓰기</button>
   </div>
 </template>
 
@@ -31,6 +49,9 @@
 import CommentItem from '@/components/CommentItem'
 
 import axios from 'axios'
+import moment from 'moment'
+
+
 export default {
   name: 'ReviewDetail',
   components: {
@@ -44,6 +65,11 @@ export default {
     }
   },
   methods: {
+    format_date: function (value) {
+        if (value) {
+          return moment(String(value)).format('YYYY-MM-DD HH:mm')
+        }
+    },
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
