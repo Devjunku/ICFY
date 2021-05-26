@@ -1,19 +1,65 @@
 <template>
   <div class="container">
     <br>
+    <h1>{{ userinfo.username }}의 프로필</h1>
     <br>
     <div class="d-flex justify-content-center align-items-baseline">
       <div>
         <div class="d-flex ">
           <div class="p-3">
-            <h1 class="mt-1">{{ userinfo.username }}의 프로필</h1>
-          </div>
-          <div class="pt-3">
             <div v-text="messageWarning" class="text-warning"></div>
-            <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
-            <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
+            <button v-if="showGuide" class="btn btn-success me-3" @click="guideToggle">도움말 모드 끄기</button>
+            <button v-else class="btn btn-success me-3" @click="guideToggle">도움말 모드 켜기</button>
+            <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
+            <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
+            <div v-text="message" class="text-warning mt-3"></div>
+            <div v-if="check" class="p-2">
+              <span class="d-flex justify-content-center">
+                <div class="p-2">
+                  <input class="form-control" type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="p-2">
+                  <button class="btn btn-danger" @click="deleteUser">확인</button>
+                </div>
+              </span>
+              <hr>
+            </div>
+            <div v-if="passwordFlag">
+              <div class="p-2">
+                <input class="form-control" type="password" id="password" v-model="password" placeholder="비밀번호를 입력하세요">
+              </div>
+              <div class="p-2">
+                <input class="form-control" type="password" id="password" v-model="newPassword" placeholder="새 비밀번호를 입력하세요">
+              </div>
+              <div class="p-2">
+                <input class="form-control" type="password" id="passwordConfirmation" v-model="newPasswordConfirmation" placeholder="새 비밀번호를 재입력하세요">
+              </div>
+              <div>
+                <button class="btn btn-warning" @click="passwordChange">확인</button>
+              </div>
+              <hr>
+            </div>
+            <div>
+              <div v-if="this.showFollowing" class="d-inline-block">
+              팔로잉:
+              <FollowItem
+                v-for="(person, idx) in followings"
+                :key="idx+'c'"
+                :person="person"
+              />
+              <hr>
+              </div>
+              <div v-if="this.showFollower">
+              팔로워:
+              <FollowItem
+                v-for="(person, idx) in followers"
+                :key="idx+'d'"
+                :person="person"
+              />
+              </div>
+            </div>
           </div>
-          <div class="d-flex justify-content-between p-4">
+          <div>
             <div class="p-1">
               <p @click="clickFollower" id="fwe">팔로워: {{followers_num}}</p>
             </div>
@@ -21,44 +67,11 @@
               <p @click="clickFollowing" id="fwi">팔로잉: {{followings_num}}</p>
             </div>
           </div>
-            <div v-if="this.showFollowing" class="d-inline-block">
-              팔로잉:
-              <FollowItem
-                v-for="(person, idx) in followings"
-                :key="idx+'c'"
-                :person="person"
-              />
-            </div>
-            <div v-if="this.showFollower">
-              팔로워:
-              <FollowItem
-                v-for="(person, idx) in followers"
-                :key="idx+'d'"
-                :person="person"
-              />  
-            </div>
         </div>
       </div>
-        <div>
-          <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
-          <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
-            <div v-text="message" class="text-warning mt-3"></div>
-            <div v-if="check">
-              <div><input type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요"></div>
-              <div><button class="btn btn-danger" @click="deleteUser">확인</button></div>
-            </div>
-        </div>
     </div>
-      <div class="container">
-        <section class="d-inline section-width-height">
-          <div v-if="passwordFlag" class="align-content-baseline">
-            <div><input class="form-control mx-auto" type="password" id="password" v-model="password" placeholder="현재 비밀번호를 입력하세요"></div>
-            <div><input class="form-control" type="password" id="password" v-model="newPassword" placeholder="새로운 비밀번호를 입력하세요"></div>
-            <div><input class="form-control" type="password" id="passwordConfirmation" v-model="newPasswordConfirmation" placeholder="새로운 비밀번호를 재입력하세요"></div>
-            <button class="btn btn-warning" @click="passwordChange">확인</button>
-          </div>
-        </section>
-      </div>
+
+
       <br>
       <hr>
     <h3 class="d-flex justify-content-start">좋아요 누른 영화들</h3>
@@ -80,11 +93,11 @@
     </div>
     <hr>
     <h3 class="d-flex justify-content-start">작성한 리뷰</h3>
-     <ProfileReview
-         v-for="(review, idx) in reviews" 
-        :key="idx+'a'"
-        :review="review"
-      />
+      <ProfileReview
+          v-for="(review, idx) in reviews" 
+          :key="idx+'a'"
+          :review="review"
+        />
     <hr>
     <h3 class="d-flex justify-content-start">작성한 댓글</h3>
     <ProfileComment
