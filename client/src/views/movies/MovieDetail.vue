@@ -16,11 +16,18 @@
     <div class="text-warning">
       평점: {{ movie.vote_average }} / 참여자 수 : {{ movie.vote_count }}
     </div>
-    <i :class="heartClass" @click="toggleHeart"></i>
+    <span class="d-flex justify-content-center">
+      <div class="p-2">
+        <p>{{ similarity.similar }}</p>
+      </div>
+      <div class="p-2">
+        <i :class="heartClass" @click="toggleHeart"></i>
+      </div>
+    </span>
     <div class="m-4">
       <button class="btn btn-warning reviewBtn" @click="goToReview">리뷰보기</button>
     </div>
-    <p>{{ similarity.similar }}</p>
+    
     <div class="mb-3">
       <a :href="'https://www.justwatch.com/kr/검색?q='+movie.title" target="_blank">
         <button class="btn btn-light watchBtn">어디서 볼 수 있나요?</button>
@@ -113,6 +120,7 @@ export default {
           this.heartClass = "far fa-2x fa-heart heart"
         }
         this.movie.vote_count = res.data.vote_count
+        this.similarIdx()
       })
       .catch(err => {
         console.log(err)

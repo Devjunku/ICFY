@@ -254,23 +254,18 @@ def similarity(request, movie_id):
             
             res_value /= N_value
             res_value *= 100
-            if res_value >= 0.5:
-                return Response({
-                    'similar': f'{request.user.username}님은 이 영화를 정말 좋아하실거에요! 취향저격{res_value:.0f}%!'
-                })
 
-            elif 0 < res_value < 0.5:
+            if 0.4 < res_value:
                 return Response({
-                    'similar': f'{request.user.username}님의 취향과 거리가 있지만 한 번 도전해볼까요? 취향저격{res_value:.0f}%!'
-                })
-            
+                    'similar': f'{request.user.username}님의 취향저격{res_value:.0f}%!'
+                })     
             else:
                 return Response({
                     'similar': f'{request.user.username}님의 취향과 너무 거리가 있네요! 하지만 진정한 영화인은 모든 영화를 섭렵하는법! 취향저격{res_value:.0f}%!'
                 })
 
         return Response({
-                'similar': f'{request.user.username}님은 이 영화를 좋아하시네요!'
+                'similar': f'좋아요!'
             })
     else:
         return Response({
