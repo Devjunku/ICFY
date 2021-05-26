@@ -20,6 +20,7 @@
     <div class="m-4">
       <button class="btn btn-warning reviewBtn" @click="goToReview">리뷰보기</button>
     </div>
+    <p>{{ similarity.similar }}</p>
     <div class="mb-3">
       <a :href="'https://www.justwatch.com/kr/검색?q='+movie.title" target="_blank">
         <button class="btn btn-light watchBtn">어디서 볼 수 있나요?</button>
@@ -58,7 +59,8 @@ export default {
       movie: null,
       moviePosterPath: null,
       heartClass: "far fa-2x fa-heart heart",
-      recommend_movies: []
+      recommend_movies: [],
+      similarity: null,
     }
   },
   methods: {
@@ -76,7 +78,7 @@ export default {
         headers: this.setToken(),
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.movie = res.data
         this.moviePosterPath = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
       })
@@ -113,17 +115,33 @@ export default {
         url: `http://127.0.0.1:8000/movies/${this.$route.params.movieId}/recommend`,
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.recommend_movies = res.data
       })
       .catch(err => {
         console.log(err)
       })
     },
+    similarIdx: function () {
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/movies/${this.$route.params.movieId}/similarity/`,
+        data: this.$store.state.userinfo,
+        headers: this.setToken(),
+      })
+      .then(res => {
+        console.log(res)
+        this.similarity = res.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   },
   created: function () {
     this.showMovieDetail()
     this.recommend()
+    this.similarIdx()
     this.$store.dispatch('movieDetailGuide')
   },
 }
