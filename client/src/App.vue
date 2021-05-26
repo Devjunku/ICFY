@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div v-if="showGuide" v-text="guide"></div>
+      <div v-if="showGuide" class="d-none d-lg-block" v-text="guide"></div>
       <div>
         <ul v-if="isLogin" class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>

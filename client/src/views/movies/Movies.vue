@@ -41,9 +41,7 @@ export default {
   methods: {
     checkScroll: function () {
       const {scrollTop, clientHeight, scrollHeight} = document.documentElement
-      console.log(scrollHeight)
-      console.log(scrollTop)
-      console.log(clientHeight)
+      
       if (scrollHeight-scrollTop < clientHeight+400) {
         this.j = this.j + 10
         this.processedMovies = this.movies.slice(this.i, this.j)

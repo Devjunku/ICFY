@@ -53,6 +53,8 @@ export default {
   name: "UpdataReview",
   data: function () {
     return {
+      // 평점 변경 시 기존 점수를 빼기 위해서
+      storage: 0,
       reviewScore: 0,
       value1 : true,
       value2 : true,
@@ -84,7 +86,8 @@ export default {
         data: {
         title: this.review.title,
         content: this.review.content,
-        review_score: this.reviewScore
+        review_score: this.reviewScore,
+        storage: this.storage
         },
         headers: this.setToken()
       })
@@ -330,6 +333,7 @@ export default {
     }
   },
   created: function () {
+    this.storage = this.review.review_score
     if (this.review.review_score === 1) {
       this.star1()
     } else if (this.review.review_score === 2) {

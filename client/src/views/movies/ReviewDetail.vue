@@ -5,7 +5,7 @@
       <h3>{{ review.title }}</h3>
     <hr>
     <div class="d-flex flex-row-reverse">
-      <h4 class="me-5">작성자: {{ review.user }}</h4>
+      <h4 class="me-5 writer" @click="goToProfile">작성자 : {{ username }}</h4>
     </div>
     <div class="d-flex flex-row-reverse">
       <h5>작성 시간: {{ format_date(review.created_at) }}</h5>
@@ -19,11 +19,15 @@
       </div>
     </div>
     <br>
+    <div class="d-flex flex-row-reverse">
+      <h5>평점: {{ review.review_score }}</h5>
+    </div>
+    <br>
     <h4>{{ review.content }}</h4>
     <br>
     <div class="d-flex flex-row-reverse" v-if="requestUser.id === review.user">
-      <button class="btn btn-warning me-3" @click="updateReview">리뷰 수정</button>
       <button class="btn btn-danger" @click="deleteReview">리뷰 삭제</button>
+      <button class="btn btn-warning me-3" @click="updateReview">리뷰 수정</button>
     </div>
     <br>
     <div class="text-warning fw-bold">Comments</div>
@@ -42,6 +46,8 @@
       <input type="text" id="content" size="35" v-model="commentContent" @keyup.enter="createComment">
       <button class="ms-3 btn btn-warning" @click="createComment">댓글 쓰기</button>
     </div>
+    <br>
+    <br>
   </div>
 </template>
 
@@ -62,6 +68,7 @@ export default {
       review: null,
       comments: [],
       commentContent: null,
+      username: null,
     }
   },
   methods: {
@@ -70,6 +77,9 @@ export default {
           return moment(String(value)).format('YYYY-MM-DD HH:mm')
         }
     },
+    goToProfile:  function () {
+      this.$router.push({name: 'SelectedProfile', params: { userId: this.review.user }})
+    }, 
     setToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
@@ -87,11 +97,22 @@ export default {
         console.log(res)
         this.review = res.data
         this.comments = res.data.comment_set
+        axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/accounts/find/${this.review.user}/`,
+        headers: this.setToken(),
+       })
+        .then(res => {
+        this.username = res.data.username
+      })
+      .catch(err => {
+        console.log(err)
+      })  
       })
     },
     deleteReview: function () {
       axios({
-        url: 'http://127.0.0.1:8000/movies/community/' + this.$route.params.reviewId,
+        url: 'http://127.0.0.1:8000/movies/community/' + this.$route.params.reviewId +'/'+ this.review.review_score + '/',
         method: 'delete',
         headers: this.setToken()
       })
@@ -132,7 +153,7 @@ export default {
           console.log(err)
         })
       }
-    }
+    },
   },
   computed: {
     requestUser: function () {
@@ -148,4 +169,8 @@ export default {
 
 <style>
 
+.writer:hover {
+  border: 2px solid #00e054;
+  cursor: pointer;
+}
 </style>

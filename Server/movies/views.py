@@ -56,13 +56,18 @@ def community(request, movie_id):
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data)
 
-
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def review_create(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     movie.vote_count += 1
+
+    # 리뷰 점수 반영
+    new_score = (movie.vote_average * movie.vote_count + request.data.get('review_score')) / (movie.vote_count + 1)
+    new_score = round(new_score, 2)
+    movie.vote_average = new_score
+    
     movie.save()
 
     serializers = ReviewListSerializer(data=request.data)
@@ -71,7 +76,7 @@ def review_create(request, movie_id):
         return Response(serializers.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET', 'POST','DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'PUT'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def review_detail(request, review_pk):
@@ -88,21 +93,54 @@ def review_detail(request, review_pk):
         if serializers.is_valid(raise_exception = True):
             serializers.save(review=review, user=request.user)
             return Response(serializers.data, status=status.HTTP_201_CREATED)
-
-    # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
-    elif request.method == 'DELETE':
-        movie = Movie.objects.get(id=review.movie_id)
-        movie.vote_count -= 1
-        movie.save()
-        review.delete()
-        return Response({'movie_id': review.movie_id})
+           
 
     # PUT 방식이면 리뷰를 작성 데이터를 DB에 수정 후 전송
     elif request.method == 'PUT':
-        serializer = ReviewListSerializer(review, data=request.data)
+        movie = get_object_or_404(Movie, id=review.movie_id)
+        new_score = (movie.vote_average * movie.vote_count + request.data.get('review_score') -request.data.get('storage')) / (movie.vote_count)
+        new_score = round(new_score, 2)
+        movie.vote_average = new_score
+        movie.save()
+
+        new_data = {
+            "title" : request.data.get('title'),
+            "content" :request.data.get('content'),
+            "review_score" : request.data.get('review_score')
+        }
+        serializer = ReviewListSerializer(review, data=new_data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def review_delete(request, review_pk, score):
+    review = get_object_or_404(Review, pk=review_pk)
+    # DELETE 방식이면 리뷰를 작성 데이터를 DB에 삭제 후 전송
+    movie = Movie.objects.get(id=review.movie_id)
+
+    new_score = (movie.vote_average * movie.vote_count - score ) / (movie.vote_count - 1)
+    movie.vote_count -= 1
+    new_score = round(new_score, 2)
+    movie.vote_average = new_score
+    movie.save()
+
+    review.delete()
+    return Response({'movie_id': review.movie_id})
+
+@api_view(['PUT'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def change_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
 
 @api_view(['DELETE', 'PUT'])
 @authentication_classes([JSONWebTokenAuthentication])
