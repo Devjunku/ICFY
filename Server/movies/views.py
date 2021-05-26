@@ -1,5 +1,5 @@
 from re import I
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -223,32 +223,55 @@ def show_like_movies(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-# @authentication_classes([JSONWebTokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def similarity(request, movie_id):
     # 쿼리부터 막힘 내일 바로 하도록 합니다.(준규)
-    print(movie)
-    if not movie.like_users.filter(pk=request.user.pk).exists():
-        user_like_movies = pd.DataFrame(list(Movie.like_users.filter(pk=request.user.pk).values()))
-        movies = pd.DataFrame(list(Movie.objects.all().values()))
-        movie = movies[movies['id'] == movie_id]
-        user_like_movies = user_like_movies.append(movie)
+
+    movie = get_object_or_404(Movie, id=movie_id)
+    me = request.user
+    movies = me.like_movies.all()
+
+    if not me.like_movies.filter(id=movie_id).exists():
+        movies = pd.DataFrame(list(movies.values()))
+        movie = pd.DataFrame(list(Movie.objects.filter(id=movie_id).values()))
+        movies = movies.append(movie)
         
         transformer = CountVectorizer()
-        genres_vector = transformer.fit_transform(user_like_movies['genre_ids'])
+        genres_vector = transformer.fit_transform(movies['genre_ids'])
         similar = cosine_similarity(genres_vector, genres_vector)
         
-        res = 0
+        res_value = 0
         N = len(similar[-1])
+        N_value = 0
         for a in range(N-1):
-            res += similar[-1][a]/N
+            if similar[-1][a]:
+                res_value += similar[-1][a]
+                N_value += 1
+                print(similar[-1][a])
         
-        return Response({
-            'similar': res
-        })
+        res_value /= N_value
+        
+        if res_value >= 0.5:
+            return Response({
+                'similar': f'{request.user.username}님은 이 영화를 정말 좋아하실거에요!'
+            })
 
-    return Response({ })
+        elif 0 < res_value < 0.5:
+            return Response({
+                'similar': f'{request.user.username}님의 취향과 거리가 있지만 한 번 도전해볼까요?'
+            })
+        
+        else:
+            return Response({
+                'similar': f'{request.user.username}님의 취향과 너무 거리가 있네요! 하지만 진정한 영화인은 모든 영화를 섭렵하는법!'
+            })
+
+    
+    return Response({
+            'similar': f'{request.user.username}님은 이 영화를 좋아하시네요!'
+        })
 
 @api_view(['GET'])
 def search(request):

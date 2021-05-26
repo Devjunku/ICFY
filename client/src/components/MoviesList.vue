@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     showMovieDetail: function () {
-      console.log(this.movie)
+      // console.log(this.movie)
       this.$router.push({name: 'MovieDetail', params: { movieId: this.movie.id}})
     },
   },
