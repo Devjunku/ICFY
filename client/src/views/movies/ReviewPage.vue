@@ -3,11 +3,11 @@
     <h1 class="d-flex justify-content-center my-5">Community</h1>
     <div class="row">
       <!-- Board -->
-      <section class="col-12 col-lg-10 ps-4">
+      <section class="col-12 col-lg-12 ps-4">
         <div class="d-none d-lg-block">
-          <table class="table table-striped">
+          <table class="table">
             <thead>
-            <tr class="table-dark">
+            <tr class="table-light">
               <th scope="col">글 제목</th>
               <th scope="col">작성자</th>
               <th scope="col">작성 시간</th>
@@ -16,7 +16,7 @@
             <tbody>
             <ReviewPageItem
               v-for="(review, idx) in reviews" 
-              :key="idx"
+              :key="idx+'a'"
               :review="review"
             />  
             </tbody>
@@ -24,40 +24,21 @@
         </div>
       
         
-        <!-- <div class="d-lg-none mt-5 me-3">
+        <div class="d-lg-none mt-5 me-3">
           <article>
             <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">너무 재밌었습니다.</h5>
-                  <small>username11</small>
-                </div>
-                <div class="mt-2">태극기 휘날리며</div>
-                <small>12 minutes ago</small>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">볼만합니다.</h5>
-                  <small class="text-muted">username13</small>
-                </div>
-                <div class="mt-2">기생충</div>
-                <small>15 minutes ago</small>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">평범합니다.</h5>
-                  <small class="text-muted">username16</small>
-                </div>
-                <div class="mt-2">바람과 함께 사라지다</div>
-                <small>30 minutes ago</small>
-              </a>
+              <ReviewPageArticle
+              v-for="(review, idx) in reviews" 
+              :key="idx+'b'"
+              :review="review"
+              />  
             </div>
           </article>
-        </div> -->
+        </div>
 
       </section>        
     </div>
-    <button @click="goWriteReview">리뷰 쓰기</button>
+    <button class="btn btn-warning mt-3" @click="goWriteReview">리뷰 쓰기</button>
   </div>
 
 
@@ -67,12 +48,14 @@
 import axios from 'axios'
 
 import ReviewPageItem from '@/components/ReviewPageItem'
+import ReviewPageArticle from '@/components/ReviewPageArticle'
 
 
 export default {
   name: 'ReviewPage',
   components: {
-    ReviewPageItem
+    ReviewPageItem,
+    ReviewPageArticle
   },
   data: function () {
     return {
