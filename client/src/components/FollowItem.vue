@@ -1,5 +1,5 @@
 <template>
-  <span class="me-3">{{ person.username }}</span>
+  <div class="mb-1">{{ person.username }}</div>
 </template>
 
 <script>

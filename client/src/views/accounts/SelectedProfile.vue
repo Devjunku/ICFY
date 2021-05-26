@@ -1,35 +1,49 @@
 <template>
-  <div>
+  <div class="container">
     <br>
     <br>
-    <h1>{{this.username}}의 프로필</h1>
-    <div>
-      <h4>팔로워 수: {{followers_num}}</h4>
-      <h4>팔로잉 수: {{followings_num}}</h4>
-      <button class="btn btn-primary" @click="clickBtn">FOLLOW</button>
-    </div>
-    <div>
-      <button @click="clickFollower">팔로워 보기</button>
-      <button @click="clickFollowing">팔로잉 보기</button>
-    </div>
-    <div v-if="this.showFollowing">
-      팔로잉:
-      <FollowItem
-        v-for="(person, idx) in followings"
-        :key="idx+'c'"
-        :person="person"
-      />
-    </div>
-    <div v-if="this.showFollower">
-      팔로워:
-      <FollowItem
-         v-for="(person, idx) in followers"
-        :key="idx+'d'"
-        :person="person"
-      />  
+    <h1>{{this.username}}님의 프로필</h1>
+    <div class="d-flex justify-content-evenly">
+      
+      <div>
+        <div class="p-1">
+          <p @click="clickFollower" id="fwe">팔로워: {{followers_num}}</p>
+        </div>
+        <div v-if="this.showFollower">
+          <ul>
+            <FollowItem
+              v-for="(person, idx) in followers"
+              :key="idx+'d'"
+              :person="person"
+            />
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="p-1">
+          <p @click="clickFollowing" id="fwi">팔로잉: {{followings_num}}</p>
+        </div>
+        <div v-if="this.showFollowing" class="d-inline-block">
+          <ul>
+
+            <FollowItem
+              v-for="(person, idx) in followings"
+              :key="idx+'c'"
+              :person="person"
+            />
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <button @click="clickBtn" class="btn btn-primary"> 팔로우하기 </button> 
+      </div>
     </div>
 
-    <h3>좋아요 누른 영화들</h3>
+    <hr>
+    <h3 class="d-flex justify-content-start">{{this.username}}님이 좋아하는 영화들</h3>
+    <br>
     <div class="container">
       <div v-if="posterMode" class="row row-cols-1 row-cols-md-6 g-4">
         <MoviesList
@@ -47,20 +61,51 @@
       </div>
 
     </div>
-
-
-    <h3>작성한 리뷰</h3>
-     <ProfileReview
-         v-for="(review, idx) in reviews"
-        :key="idx+'a'"
-        :review="review"
-      />  
-    <h3>작성한 댓글</h3>
-    <ProfileComment
-         v-for="(comment, idx) in comments" 
-        :key="idx+'b'"
-        :comment="comment"
-      />  
+    <br>
+    <hr>
+    <h3 class="d-flex justify-content-start">{{this.username}}님의 리뷰</h3>
+      <section class="col-12 col-lg-12 ps-4 pt-4">
+        <div class="d-none d-lg-block">
+          <table class="table">
+            <thead>
+            <tr class="table-light">
+              <th scope="col">영화</th>
+              <th scope="col">리뷰 제목</th>
+              <th scope="col">{{this.username}}님의 점수</th>
+              <th scope="col">작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ProfileReview
+                v-for="(review, idx) in reviews" 
+                :key="idx+'a'"
+                :review="review"
+              />  
+            </tbody>
+          </table>
+        </div>
+      </section>
+    <h3 class="d-flex justify-content-start">{{this.username}}님의 댓글</h3>
+        <section class="col-12 col-lg-12 ps-4 pt-4">
+        <div class="d-none d-lg-block">
+          <table class="table">
+            <thead>
+            <tr class="table-light">
+              <th scope="col">댓글 제목</th>
+              <th scope="col">댓글이 작성된 리뷰</th>
+              <th scope="col">작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+              <ProfileComment
+                  v-for="(comment, idx) in comments" 
+                  :key="idx+'b'"
+                  :comment="comment"
+                />
+            </tbody>
+          </table>
+        </div>
+      </section>
   </div>
 </template>
 

@@ -1,71 +1,76 @@
 <template>
   <div class="container">
     <br>
+    <br>
     <h1>{{ userinfo.username }}의 프로필</h1>
     <br>
-    <div class="d-flex justify-content-center align-items-baseline">
+    <div class="d-flex justify-content-evenly align-items-baseline">
+      <!-- 버튼들 -->
       <div>
-        <div class="d-flex ">
-          <div class="p-3">
-            <div v-text="messageWarning" class="text-warning"></div>
-            <button v-if="showGuide" class="btn btn-success me-3" @click="guideToggle">도움말 모드 끄기</button>
-            <button v-else class="btn btn-success me-3" @click="guideToggle">도움말 모드 켜기</button>
-            <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
-            <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
-            <div v-text="message" class="text-warning mt-3"></div>
-            <div v-if="check" class="p-2">
-              <span class="d-flex justify-content-center">
-                <div class="p-2">
-                  <input class="form-control" type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
-                </div>
-                <div class="p-2">
-                  <button class="btn btn-danger" @click="deleteUser">확인</button>
-                </div>
-              </span>
-              <hr>
+        <div class="p-3">
+          <div v-text="messageWarning" class="text-warning"></div>
+          <button v-if="showGuide" class="btn btn-success me-3" @click="guideToggle">도움말 모드 끄기</button>
+          <button v-else class="btn btn-success me-3" @click="guideToggle">도움말 모드 켜기</button>
+          <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
+          <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
+          <div v-text="message" class="text-warning mt-3"></div>
+          <div v-if="check" class="p-2">
+            <span class="d-flex justify-content-center">
+              <div class="p-2">
+                <input class="form-control" type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
+              </div>
+              <div class="p-2">
+                <button class="btn btn-danger" @click="deleteUser">확인</button>
+              </div>
+            </span>
+            <hr>
+          </div>
+          <div v-if="passwordFlag">
+            <div class="p-2">
+              <input class="form-control" type="password" id="password" v-model="password" placeholder="비밀번호를 입력하세요">
             </div>
-            <div v-if="passwordFlag">
-              <div class="p-2">
-                <input class="form-control" type="password" id="password" v-model="password" placeholder="비밀번호를 입력하세요">
-              </div>
-              <div class="p-2">
-                <input class="form-control" type="password" id="password" v-model="newPassword" placeholder="새 비밀번호를 입력하세요">
-              </div>
-              <div class="p-2">
-                <input class="form-control" type="password" id="passwordConfirmation" v-model="newPasswordConfirmation" placeholder="새 비밀번호를 재입력하세요">
-              </div>
-              <div>
-                <button class="btn btn-warning" @click="passwordChange">확인</button>
-              </div>
-              <hr>
+            <div class="p-2">
+              <input class="form-control" type="password" id="password" v-model="newPassword" placeholder="새 비밀번호를 입력하세요">
+            </div>
+            <div class="p-2">
+              <input class="form-control" type="password" id="passwordConfirmation" v-model="newPasswordConfirmation" placeholder="새 비밀번호를 재입력하세요">
             </div>
             <div>
-              <div v-if="this.showFollowing" class="d-inline-block">
-              팔로잉:
-              <FollowItem
-                v-for="(person, idx) in followings"
-                :key="idx+'c'"
-                :person="person"
-              />
-              <hr>
-              </div>
-              <div v-if="this.showFollower">
-              팔로워:
+              <button class="btn btn-warning" @click="passwordChange">확인</button>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+
+      <!-- 팔로우 팔로워 -->
+      <div class="d-flex justify-content-evenly">
+        <div>
+          <div class="p-1">
+            <h4 @click="clickFollower" id="fwe">팔로워: {{followers_num}}</h4>
+          </div>
+          <div v-if="this.showFollower">
+            <ul>
               <FollowItem
                 v-for="(person, idx) in followers"
                 :key="idx+'d'"
                 :person="person"
               />
-              </div>
-            </div>
+            </ul>
           </div>
-          <div>
-            <div class="p-1">
-              <p @click="clickFollower" id="fwe">팔로워: {{followers_num}}</p>
-            </div>
-            <div class="p-1">
-              <p @click="clickFollowing" id="fwi">팔로잉: {{followings_num}}</p>
-            </div>
+        </div>
+        <div>
+          <div class="p-1">
+            <h4 @click="clickFollowing" id="fwi">팔로잉: {{followings_num}}</h4>
+          </div>
+          <div v-if="this.showFollowing" class="d-inline-block">
+            <ul>
+              <FollowItem
+                v-for="(person, idx) in followings"
+                :key="idx+'c'"
+                :person="person"
+              />
+            </ul>
           </div>
         </div>
       </div>
