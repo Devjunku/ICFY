@@ -13,6 +13,8 @@
       </div>
     </div>
     <div>
+      <div v-if="this.case===2" class="text-success">변경한 비밀번호로 로그인해주세요.</div>
+      <div v-if="error" class="text-warning mb-3">아이디와 비밀번호를 확인해주세요.</div>
       <button class="btn btn-success" @click="login">로그인</button>
     </div>
   </div>
@@ -29,7 +31,9 @@ export default {
       credentials: {
         username: null,
         password: null,
-      }
+      },
+      case: this.$route.params.case,
+      error: false,
     }
   },
   methods: {
@@ -48,6 +52,7 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          this.error = true
         })
     },
     setToken: function () {
@@ -70,9 +75,13 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
     }  
-        
-  }
+  },
+  computed: {
+    signal: function () {
+      return this.$store.state.signal
+    },
+  },
+  
 }
 </script>

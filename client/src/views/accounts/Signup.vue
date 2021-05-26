@@ -69,7 +69,6 @@ export default {
     signup: function () {
       if (this.unchecked === false) {
         if (this.password === this.passwordConfirmation) {
-          console.log(1)
           axios({
             method: 'post',
             url: 'http://127.0.0.1:8000/accounts/signup/',

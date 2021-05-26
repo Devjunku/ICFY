@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, UserProfileSerializer, UserCheckSerializer, FollowSerializer
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -94,3 +95,32 @@ def follow_change(request, user_id):
         "followings_num": len(followings_serializer.data),
         "followers_num": len(followers_serializer.data),
         }, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def password(request):
+    password = request.data.get("password")
+    newPassword = request.data.get("newPassword")
+
+    # 현재 패스워드 입력한 것이 맞는지 검증하기
+    if check_password(password, request.user.password):
+        request.user.set_password(newPassword)
+        request.user.save()
+        return Response({"message": 1}, status=status.HTTP_200_OK)
+    # 잘못된 현재 패스워드 입력
+    else:
+        return Response({"message": "현재 비밀번호가 틀렸습니다."}, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete(request):
+    password = request.data.get("password")
+    # 현재 패스워드 입력한 것이 맞는지 검증하기
+    if check_password(password, request.user.password):
+        request.user.delete()
+        return Response({"message": 1}, status=status.HTTP_200_OK)
+    else:
+        return Response({"message": "비밀번호가 틀렸습니다."}, status=status.HTTP_200_OK)

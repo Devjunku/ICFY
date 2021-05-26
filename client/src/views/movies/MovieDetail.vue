@@ -85,7 +85,7 @@ export default {
       .catch(err => {
         console.log(err)
         // 도움말에 적기
-        this.$router.push({name: 'Login'})
+        this.$router.push({name: 'Login', params: { case: 1}})
       })
     },
     goToReview: function () {

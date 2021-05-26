@@ -3,8 +3,21 @@
     <br>
     <br>
     <h1>{{ userinfo.username }}의 프로필</h1>
-    <button class="btn btn-warning me-3">비밀번호 변경</button>
-    <button class="btn btn-danger me-3">회원 탈퇴</button>
+    <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
+    <div>
+      <input type="password" id="password" v-model="password" placeholder="현재 비밀번호를 입력하세요">
+      <input type="password" id="password" v-model="newPassword" placeholder="바꿀 비밀번호를 입력하세요">
+      <input type="password" id="passwordConfirmation" v-model="newPasswordConfirmation" placeholder="바꿀 비밀번호를 재입력하세요">
+      <button class="btn btn-warning" @click="passwordChange">확인</button>
+    </div>
+    <div v-text="message" class="text-warning mt-3"></div>
+    <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
+    <div v-if="check">
+      <h5>회원 탈퇴를 하려면 비밀번호를 누르고 확인 버튼을 눌러주세요.</h5>
+      <input type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
+      <button class="btn btn-danger" @click="deleteUser">확인</button>
+    </div>
+    <div v-text="messageWarning" class="text-warning mt-3"></div>
     <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
     <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
 
@@ -87,6 +100,14 @@ export default {
     showFollower: false,
     showFollowing: false,
     likeMovies: [],
+    passwordFlag: false,
+    password: null,
+    newPassword: null,
+    newPasswordConfirmation: null,
+    message: "",
+    check: false,
+    deleteUserPassword: null,
+    messageWarning: null,
     }
   },
   methods: {
@@ -161,7 +182,69 @@ export default {
         console.log(err)
       })  
     },
+    toggleForm: function () {
+      this.passwordFlag = !this.passwordFlag
+    },
 
+    passwordChange: function () {
+      if (this.newPassword === this.newPasswordConfirmation) {
+        axios({
+            method: 'put',
+            url: 'http://127.0.0.1:8000/accounts/password/',
+            data: {
+              password: this.password,
+              newPassword: this.newPassword,
+            },
+            headers: this.setToken(),
+          })
+            .then(res => {
+              console.log(res)
+              localStorage.setItem('jwt', res.data.token)
+              this.password = ""
+              this.newPassword = ""
+              this.newPasswordConfirmation = ""
+              this.message = res.data.message
+              if (this.message === 1) {
+                // case가 2면 다시 로그인하라는 메시지를 띄우겠다.
+                // 자꾸 메인 화면으로 이동해서
+                // 이번에는 여기 거쳐서 login으로 가겠다.
+                this.$store.dispatch('changeSignal')
+                }
+                
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      else {
+        this.message = "바꿀 비밀번호 입력과 재입력이 일치하지 않습니다."
+      }
+    },
+    deleteUserCheck: function () {
+      this.check = !this.check
+    },
+    deleteUser: function () {
+        axios({
+            method: 'delete',
+            url: 'http://127.0.0.1:8000/accounts/delete/',
+            data: {
+              password: this.deleteUserPassword
+            },
+            headers: this.setToken(),
+          })
+            .then(res => {
+              console.log(res)
+              if (res.data.message === 1) {
+                this.$store.dispatch('deleteUser')
+              }
+              else {
+                this.messageWarning = res.data.message
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+    }
   },
   computed:  {
     userinfo: function () {

@@ -38,7 +38,7 @@
             <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">회원가입</router-link>
           </li>
           <li class="nav-item mx-2">
-            <router-link :to="{ name: 'Login'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그인</router-link>
+            <router-link :to="{ name: 'Login', params: { case: 1}}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그인</router-link>
           </li>
         </ul>
       </div>
@@ -101,6 +101,12 @@ export default {
     showGuide: function () {
       return this.$store.state.showGuide
     },
+    signal: function () {
+      return this.$store.state.signal
+    },
+    delete: function () {
+      return this.$store.state.delete
+    },
   },
   watch: {
     isLogin: function () {
@@ -110,7 +116,14 @@ export default {
       else {
         this.$store.dispatch('logoutGuide')
       }
-    }
+    },
+    signal: function () {
+      this.logout()
+      this.$router.push({name: 'Login' , params: { case: 2}})
+    },
+    delete: function () {
+      this.logout()
+    },
   },
 }
 </script>

@@ -22,6 +22,8 @@ export default new Vuex.Store({
     posterMode: true,
     guide: "도움말: 로그인을 하면 맞춤 영화 추천을 받을 수 있고 영화에 대한 리뷰를 볼 수도 있어요!",
     showGuide: true,
+    signal: false,
+    delete: false,
   },
   mutations: {
     CREATE_MOVIES: function (state, movies) {
@@ -72,6 +74,12 @@ export default new Vuex.Store({
     },
     GUIDE_TOGGLE: function (state) {
       state.showGuide = !state.showGuide
+    },
+    CHANGE_SIGNAL: function (state) {
+      state.signal = !state.signal
+    },
+    DELETE_USER: function (state) {
+      state.delete = !state.delete
     },
   },
   actions: {
@@ -126,7 +134,13 @@ export default new Vuex.Store({
     },
     guideToggle: function ({ commit }) {
       commit('GUIDE_TOGGLE')
-    }, 
+    },
+    changeSignal:  function ({ commit }) {
+      commit('CHANGE_SIGNAL')
+    },
+    deleteUser: function ({ commit }) {
+      commit('DELETE_USER')
+    },
   },
   modules: {
   }

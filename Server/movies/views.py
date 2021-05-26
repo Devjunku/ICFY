@@ -289,3 +289,4 @@ def show_like_other_movies(request, user_id):
     movies = person.like_movies.all()
     serializer = MovieListSerializer(movies,  many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
