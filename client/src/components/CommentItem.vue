@@ -23,6 +23,7 @@
         <div v-if="comment.created_at !== comment.updated_at">수정 시간: {{ format_date(comment.updated_at) }}</div>
         <div v-else> [수정되지 않은 댓글] </div>
       </div>
+      <hr>
   </div>
 </template>
 

@@ -37,7 +37,8 @@
       </div>
 
       <div>
-        <button @click="clickBtn" class="btn btn-primary"> 팔로우하기 </button> 
+        <button v-if="flag" @click="clickBtn" class="btn btn-primary"> 언팔로우하기 </button> 
+        <button v-else @click="clickBtn" class="btn btn-primary"> 팔로우하기 </button> 
       </div>
     </div>
 
@@ -140,6 +141,7 @@ export default {
     showFollowing: false,
     username: null,
     likedMovies: [],
+    flag: null,
     }
   },
   methods: {
@@ -178,6 +180,7 @@ export default {
         this.followers = res.data.followers
         this.followings_num = res.data.followings_num
         this.followers_num = res.data.followers_num
+        this.flag = !this.flag
       })
       .catch(err => {
         console.log(err)
@@ -195,6 +198,12 @@ export default {
         this.followers = res.data.followers
         this.followings_num = res.data.followings_num
         this.followers_num = res.data.followers_num
+        if (res.data.flag===1) {
+          this.flag = true
+        } else {
+          this.flag = false
+        }
+        console.log(res.data)
       })
       .catch(err => {
         console.log(err)
