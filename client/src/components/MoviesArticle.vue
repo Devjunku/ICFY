@@ -4,13 +4,17 @@
     <div class="parent" @click="showMovieDetail">
       <img :src="moviePosterPath" height="200px" alt="movie">
       <div>
-        <h2>{{ movie.title }}</h2>
-        <h5>{{ movie.overview }}</h5>
+        <h2 class="movie-title mx-auto mb-5">{{ movie.title }}</h2>
+        <h5 class="moive-overview mx-auto">{{ movie.overview }}</h5>
       </div>
     </div>
-    <p>{{ movie.vote_average }}</p>  
-    <!-- 하트 클릭하려면 따로 빼야 한다. -->
-    <i :class="heartClass" @click="toggleHeart"></i>
+    <div class="d-flex flex-row-reverse">
+      <span class="text-warning fw-bold">평점: {{ movie.vote_average }}</span>  
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <!-- 하트 클릭하려면 따로 빼야 한다. -->
+      <i :class="heartClass" @click="toggleHeart"></i>
+    </div>
   </div>
 </template>
 
@@ -123,4 +127,5 @@ h2:hover {
 h5:hover {
   color: skyblue;
 }
+
 </style>
