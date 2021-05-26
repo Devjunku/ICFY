@@ -1,14 +1,23 @@
 <template>
    <div>
+     <br>
     <h1>리뷰 쓰기</h1>
     <div>
-      <label for="title">리뷰 제목: </label>
-      <input type="text" id="title" v-model="reviewTitle">
+      <br>
+      <label for="title me-3">리뷰 제목</label>
     </div>
+    <br>
+    <input type="text" id="title" size="60" v-model="reviewTitle">
+    <br>
+    <br>  
     <div>
-      <label for="content">리뷰 내용: </label>
-      <input type="text" id="content" v-model="reviewContent">
+      <label for="content">리뷰 내용</label>
     </div>
+    <br>
+    <div>
+      <textarea v-model="reviewContent" cols="60" rows="10"></textarea>
+    </div>
+    <br>
     <div>
       <i v-if="value1" @click="star1" class="far fa-star fa-2x star"></i>
       <i v-else @click="star1" class="fas fa-star fa-2x star"></i>
@@ -31,7 +40,8 @@
       <i v-if="value10" @click="star10" class="far fa-star fa-2x star"></i>
       <i v-else @click="star10" class="fas fa-star fa-2x star"></i>
     </div>
-    <button @click="submit">제출</button>
+    <br>
+    <button class="btn btn-warning fw-bold" @click="submit">제출</button>
   </div>
 </template>
 

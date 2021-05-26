@@ -1,14 +1,23 @@
 <template>
    <div>
-    <h1>리뷰 쓰기</h1>
+    <br>
+    <h1>리뷰 수정</h1>
     <div>
-      <label for="title">리뷰 제목: </label>
-      <input v-if="review" type="text" id="title" v-model="review.title">
+      <br>
+      <label for="title me-3">리뷰 제목</label>
     </div>
+    <br>  
+    <input v-if="review" type="text" id="title" size="60" v-model="review.title">
+    <br>
+    <br>
     <div>
-      <label for="content">리뷰 내용: </label>
-      <input type="text" id="content" v-model="review.content">
+      <label for="content">리뷰 내용</label>
     </div>
+    <br>
+    <div>
+      <textarea v-model="review.content" cols="60" rows="10"></textarea>
+    </div>
+    <br>
     <div>
        <i v-if="value1" @click="star1" class="far fa-star fa-2x star"></i>
       <i v-else @click="star1" class="fas fa-star fa-2x star"></i>
@@ -31,7 +40,8 @@
       <i v-if="value10" @click="star10" class="far fa-star fa-2x star"></i>
       <i v-else @click="star10" class="fas fa-star fa-2x star"></i>
     </div>
-    <button @click="submit">리뷰 수정</button>
+    <br>
+    <button class="btn btn-warning fw-bold" @click="submit">리뷰 수정</button>
   </div>
 </template>
 
@@ -43,6 +53,8 @@ export default {
   name: "UpdataReview",
   data: function () {
     return {
+      // 평점 변경 시 기존 점수를 빼기 위해서
+      storage: 0,
       reviewScore: 0,
       value1 : true,
       value2 : true,
@@ -74,7 +86,8 @@ export default {
         data: {
         title: this.review.title,
         content: this.review.content,
-        review_score: this.reviewScore
+        review_score: this.reviewScore,
+        storage: this.storage
         },
         headers: this.setToken()
       })
@@ -320,6 +333,7 @@ export default {
     }
   },
   created: function () {
+    this.storage = this.review.review_score
     if (this.review.review_score === 1) {
       this.star1()
     } else if (this.review.review_score === 2) {
