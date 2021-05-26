@@ -74,8 +74,8 @@
 
       <br>
       <hr>
-    <h3 class="d-flex justify-content-start">좋아요 누른 영화들</h3>
-    <div class="container">
+    <h3 class="d-flex justify-content-start">내가 좋아한 영화들</h3>
+    <div class="container pt-4">
       <div v-if="posterMode" class="row row-cols-1 row-cols-md-6 g-4">
         <MoviesList
         v-for="(movie, idx) in likeMovies" 
@@ -92,19 +92,50 @@
       </div>
     </div>
     <hr>
-    <h3 class="d-flex justify-content-start">작성한 리뷰</h3>
-      <ProfileReview
-          v-for="(review, idx) in reviews" 
-          :key="idx+'a'"
-          :review="review"
-        />
+    <h3 class="d-flex justify-content-start">내 리뷰</h3>
+      <section class="col-12 col-lg-12 ps-4 pt-4">
+        <div class="d-none d-lg-block">
+          <table class="table">
+            <thead>
+            <tr class="table-light">
+              <th scope="col">영화</th>
+              <th scope="col">리뷰 제목</th>
+              <th scope="col">내가 준 점수</th>
+              <th scope="col">작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ProfileReview
+                v-for="(review, idx) in reviews" 
+                :key="idx+'a'"
+                :review="review"
+              />  
+            </tbody>
+          </table>
+        </div>
+      </section>
     <hr>
-    <h3 class="d-flex justify-content-start">작성한 댓글</h3>
-    <ProfileComment
-         v-for="(comment, idx) in comments" 
-        :key="idx+'b'"
-        :comment="comment"
-      />  
+    <h3 class="d-flex justify-content-start">내 댓글</h3>
+      <section class="col-12 col-lg-12 ps-4 pt-4">
+        <div class="d-none d-lg-block">
+          <table class="table">
+            <thead>
+            <tr class="table-light">
+              <th scope="col">댓글 제목</th>
+              <th scope="col">댓글이 작성된 리뷰</th>
+              <th scope="col">작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+              <ProfileComment
+                  v-for="(comment, idx) in comments" 
+                  :key="idx+'b'"
+                  :comment="comment"
+                />
+            </tbody>
+          </table>
+        </div>
+      </section>
   </div>
 </template>
 

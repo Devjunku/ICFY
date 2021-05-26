@@ -23,7 +23,6 @@
           </table>
         </div>
       
-        
         <div class="d-lg-none mt-5 me-3">
           <article>
             <div class="list-group">
