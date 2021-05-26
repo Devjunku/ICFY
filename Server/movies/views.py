@@ -227,51 +227,55 @@ def show_like_movies(request):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def similarity(request, movie_id):
-    # 쿼리부터 막힘 내일 바로 하도록 합니다.(준규)
 
     movie = get_object_or_404(Movie, id=movie_id)
     me = request.user
     movies = me.like_movies.all()
 
-    if not me.like_movies.filter(id=movie_id).exists():
-        movies = pd.DataFrame(list(movies.values()))
-        movie = pd.DataFrame(list(Movie.objects.filter(id=movie_id).values()))
-        movies = movies.append(movie)
-        
-        transformer = CountVectorizer()
-        genres_vector = transformer.fit_transform(movies['genre_ids'])
-        similar = cosine_similarity(genres_vector, genres_vector)
-        
-        res_value = 0
-        N = len(similar[-1])
-        N_value = 0
-        for a in range(N-1):
-            if similar[-1][a]:
-                res_value += similar[-1][a]
-                N_value += 1
-                print(similar[-1][a])
-        
-        res_value /= N_value
-        
-        if res_value >= 0.5:
-            return Response({
-                'similar': f'{request.user.username}님은 이 영화를 정말 좋아하실거에요!'
-            })
+    if movies:
 
-        elif 0 < res_value < 0.5:
-            return Response({
-                'similar': f'{request.user.username}님의 취향과 거리가 있지만 한 번 도전해볼까요?'
-            })
-        
-        else:
-            return Response({
-                'similar': f'{request.user.username}님의 취향과 너무 거리가 있네요! 하지만 진정한 영화인은 모든 영화를 섭렵하는법!'
-            })
+        if not me.like_movies.filter(id=movie_id).exists():
+            movies = pd.DataFrame(list(movies.values()))
+            movie = pd.DataFrame(list(Movie.objects.filter(id=movie_id).values()))
+            movies = movies.append(movie)
+            
+            transformer = CountVectorizer()
+            genres_vector = transformer.fit_transform(movies['genre_ids'])
+            similar = cosine_similarity(genres_vector, genres_vector)
+            
+            res_value = 0
+            N = len(similar[-1])
+            N_value = 0
+            for a in range(N-1):
+                if similar[-1][a]:
+                    res_value += similar[-1][a]
+                    N_value += 1
+                    print(similar[-1][a])
+            
+            res_value /= N_value
+            
+            if res_value >= 0.5:
+                return Response({
+                    'similar': f'{request.user.username}님은 이 영화를 정말 좋아하실거에요!'
+                })
 
-    
-    return Response({
-            'similar': f'{request.user.username}님은 이 영화를 좋아하시네요!'
-        })
+            elif 0 < res_value < 0.5:
+                return Response({
+                    'similar': f'{request.user.username}님의 취향과 거리가 있지만 한 번 도전해볼까요?'
+                })
+            
+            else:
+                return Response({
+                    'similar': f'{request.user.username}님의 취향과 너무 거리가 있네요! 하지만 진정한 영화인은 모든 영화를 섭렵하는법!'
+                })
+
+        return Response({
+                'similar': f'{request.user.username}님은 이 영화를 좋아하시네요!'
+            })
+    else:
+        return Response({
+                'similar': '좋아하시는 영화를 통해 새로운 영화를 추천해드립니다!'
+            })
 
 @api_view(['GET'])
 def search(request):
