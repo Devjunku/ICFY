@@ -290,6 +290,11 @@ def similarity(request, movie_id):
                     N_value += 1
                     print(similar[-1][a])
             
+            if not N_value:
+                return Response({
+                    'similar': f'{request.user.username}님의 정보가 부족해서 {request.user.username}님의 취향을 알 수 없어요!'
+                })
+
             res_value /= N_value
             res_value *= 100
 
@@ -307,7 +312,7 @@ def similarity(request, movie_id):
             })
     else:
         return Response({
-                'similar': '좋아하시는 영화를 통해 새로운 영화를 추천해드립니다!'
+                'similar': '좋아요를 누른 영화로 {request.user.username}님의 취향을 알아가 볼게요!'
             })
 
 @api_view(['GET'])
