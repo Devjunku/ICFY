@@ -56,14 +56,21 @@ def follow(request, user_id):
     
     followings = you.followings.all()
     followers = you.followers.all()
+    
+    flag = 0
+    if you.followers.filter(id=request.user.id).exists():
+        flag = 1
+
     followings_serializer = FollowSerializer(followings, many=True)
     followers_serializer = FollowSerializer(followers, many=True)
+
 
     return Response({
         "followings": followings_serializer.data,
         "followers": followers_serializer.data,
         "followings_num": len(followings_serializer.data),
         "followers_num": len(followers_serializer.data),
+        "flag": flag,
         }, status=status.HTTP_200_OK)
 
 

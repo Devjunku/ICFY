@@ -5,25 +5,19 @@
       <h3>{{ review.title }}</h3>
     <hr>
     <div class="d-flex flex-row-reverse">
-      <h4 class="me-5 writer" @click="goToProfile">작성자 : {{ username }}</h4>
-    </div>
-    <div class="d-flex flex-row-reverse">
-      <h5>작성 시간: {{ format_date(review.created_at) }}</h5>
-    </div>
-    <div class="d-flex flex-row-reverse">
+      <h5 class="ms-3">평점: {{ review.review_score }}</h5>
       <div v-if="review.created_at===review.updated_at" class="d-flex flex-row-reverse">
         <h5>수정되지 않은 글</h5>
       </div>
       <div v-else>
         <h5>수정 시간: {{ format_date(review.updated_at) }}</h5>
       </div>
+      <h5 class="me-3">작성 시간: {{ format_date(review.created_at) }}</h5>
+      <h5 class="me-3 writer" @click="goToProfile">작성자 : {{ username }}</h5>
     </div>
-    <br>
-    <div class="d-flex flex-row-reverse">
-      <h5>평점: {{ review.review_score }}</h5>
-    </div>
-    <br>
+    <hr>
     <h4>{{ review.content }}</h4>
+    <hr>
     <br>
     <div class="d-flex flex-row-reverse" v-if="requestUser.id === review.user">
       <button class="btn btn-danger" @click="deleteReview">리뷰 삭제</button>
