@@ -2,20 +2,26 @@
   <div class="container">
     <br>
     <br>
-    <div class="d-flex">
+    <div class="d-flex justify-content-center align-items-baseline">
       <div>
-        <div class="d-flex">
-          <h1 class="p-3">{{ userinfo.username }}의 프로필</h1>
-          <span class="p-1">
-            <p class="p-1">팔로워: {{followers_num}}</p>
-            <p class="p-1">팔로잉: {{followings_num}}</p>
-          </span>
-          <span class="p-1">
-            <button @click="clickFollowing">팔로잉 보기</button>
-            <button @click="clickFollower">팔로워 보기</button>
-          </span>
-          <div class="d-inline-block">
-            <div v-if="this.showFollowing">
+        <div class="d-flex ">
+          <div class="p-3">
+            <h1 class="mt-1">{{ userinfo.username }}의 프로필</h1>
+          </div>
+          <div class="pt-3">
+            <div v-text="messageWarning" class="text-warning"></div>
+            <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
+            <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
+          </div>
+          <div class="d-flex justify-content-between p-4">
+            <div class="p-1">
+              <p @click="clickFollower" id="fwe">팔로워: {{followers_num}}</p>
+            </div>
+            <div class="p-1">
+              <p @click="clickFollowing" id="fwi">팔로잉: {{followings_num}}</p>
+            </div>
+          </div>
+            <div v-if="this.showFollowing" class="d-inline-block">
               팔로잉:
               <FollowItem
                 v-for="(person, idx) in followings"
@@ -31,31 +37,20 @@
                 :person="person"
               />  
             </div>
-          </div>
         </div>
-        <div class=" justify-content-start">
+      </div>
+        <div>
           <button class="btn btn-warning me-3" @click="toggleForm">비밀번호 변경</button>
           <button class="btn btn-danger me-3" @click="deleteUserCheck">회원 탈퇴</button>
-          <aside class="d-inline-block aside-width-height">
-            <div>
-              <div v-text="messageWarning" class="text-warning mt-3"></div>
-              <button v-if="showGuide" class="btn btn-success" @click="guideToggle">도움말 모드 끄기</button>
-              <button v-else class="btn btn-success" @click="guideToggle">도움말 모드 켜기</button>
-            </div>
             <div v-text="message" class="text-warning mt-3"></div>
             <div v-if="check">
-              <input type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요">
-              <button class="btn btn-danger" @click="deleteUser">확인</button>
+              <div><input type="password" id="password" v-model="deleteUserPassword" placeholder="비밀번호를 입력하세요"></div>
+              <div><button class="btn btn-danger" @click="deleteUser">확인</button></div>
             </div>
-          </aside>
         </div>
-      </div>
-      <div>
-        
-      </div>
     </div>
       <div class="container">
-        <section class="d-inline-block section-width-height">
+        <section class="d-inline section-width-height">
           <div v-if="passwordFlag" class="align-content-baseline">
             <div><input class="form-control mx-auto" type="password" id="password" v-model="password" placeholder="현재 비밀번호를 입력하세요"></div>
             <div><input class="form-control" type="password" id="password" v-model="newPassword" placeholder="새로운 비밀번호를 입력하세요"></div>
@@ -64,6 +59,8 @@
           </div>
         </section>
       </div>
+      <br>
+      <hr>
     <h3 class="d-flex justify-content-start">좋아요 누른 영화들</h3>
     <div class="container">
       <div v-if="posterMode" class="row row-cols-1 row-cols-md-6 g-4">
@@ -81,12 +78,14 @@
         />
       </div>
     </div>
+    <hr>
     <h3 class="d-flex justify-content-start">작성한 리뷰</h3>
      <ProfileReview
          v-for="(review, idx) in reviews" 
         :key="idx+'a'"
         :review="review"
-      />  
+      />
+    <hr>
     <h3 class="d-flex justify-content-start">작성한 댓글</h3>
     <ProfileComment
          v-for="(comment, idx) in comments" 
@@ -292,5 +291,13 @@ export default {
 </script>
 
 <style>
+#fwi:hover {
+  color: skyblue; 
+  cursor: pointer;
+}
 
+#fwe:hover {
+  color: skyblue; 
+  cursor: pointer;
+}
 </style>
