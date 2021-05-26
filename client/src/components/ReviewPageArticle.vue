@@ -1,16 +1,26 @@
 <template>
-  <tr class="text-light">
-    <!-- 깔끔하게 하는 방법은 없을까? -->
-    <!-- <th @click="showReviewDetail" scope="row">{{ review.movie.title }}</th> -->
-    <td class="table-title" @click="showReviewDetail">{{ review.title }}</td>
-    <!-- id로만 나온다. -->
-    <!-- <td>{{ review.user }}</td> -->
-    <td class="table-writer" @click="goToProfile">{{ username }}</td>
-    <!-- <td @click="showReviewDetail">{{ review.created_at }}</td> -->
-    <td>{{ format_date(review.created_at) }}</td>
-    <!-- <td v-if="review.created_at !== review.updated_at" @click="showReviewDetail">{{ review.updated_at }}</td> -->
-    <!-- <td v-else @click="showReviewDetail">수정되지 않음</td> -->
-  </tr>
+<div>
+
+  <!-- <div class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 table-title" @click="showReviewDetail">{{ review.title }}</h5>
+      <small class="table-writer" @click="goToProfile">{{ username }}</small>
+    </div>
+    <small>{{ format_date(review.created_at) }}</small>
+  </div> -->
+  
+  
+  <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+    <div class="d-flex w-100">
+      <h5 class="mb-1 table-title" @click="showReviewDetail">제목: {{ review.title }}</h5>
+    </div>
+    <br>
+    <div class="d-flex">
+      <small class="table-writer me-3" @click="goToProfile">작성자: {{ username }}</small>
+      <small>{{ format_date(review.created_at) }}</small>
+    </div>
+  </a>
+</div>
 </template>
 
 <script>
@@ -19,7 +29,7 @@ import moment from 'moment'
 
 
 export default {
-  name: 'ReviewPageItem',
+  name: 'ReviewPageArticle',
   data: function () {
     return {
       username: null
@@ -70,8 +80,7 @@ export default {
 <style scoped>
 
 .table-title:hover {
-  border: 1.5px solid gold;
-  color: gold;
+  background: gold;
 }
 
 .table-title {
@@ -79,7 +88,7 @@ export default {
 }
 
 .table-writer:hover {
-  border: 1px solid gold;
+  background: gold;
 }
 
 .table-writer {

@@ -21,7 +21,7 @@
           <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
 
           <li v-if="userinfo.is_superuser" class="nav-item mx-2">
-            <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">관리자 모드</div>
+            <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light" @mouseover="makeBlue" @mouseleave="makeWhite">관리자 모드</div>
           </li>
           <li class="nav-item mx-2">
             <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">내 프로필</router-link>
@@ -65,7 +65,10 @@ export default {
       this.$router.push({ name: 'Movies' })
     },
     goToAdmin: function () {
-      window.location.href = "http://127.0.0.1:8000/admin"
+      window.open(
+        'http://127.0.0.1:8000/admin/',
+        '_blank'
+      );
     },
     makeBlue: function (event) {
       event.target.classList.replace("text-light","text-primary")
@@ -131,7 +134,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Nanum Gothic', 'Noto Sans KR';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
