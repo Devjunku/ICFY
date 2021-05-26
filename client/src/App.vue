@@ -1,50 +1,24 @@
 <template>
   <div id="app">
     <nav class="navbar transparent8 navbar-expand fixed-top navbar-dark d-flex justify-content-between">
+      
       <div class="d-flex ">
-        <div class="d-flex ">
-          <div class="nav-left">
-            <div class="ms-3">
-              <router-link :to="{ name: 'Movies'}" class="navbar-brand">
-                <img src="./assets/logo3.png" alt="logo image" height="40">
-              </router-link>  
-            </div>
-          </div>
-          <div class="p-2">
-            <input class="form-control" type="text" v-model.trim="search" @keyup.enter="showMap" placeholder="영화를 검색하세요!">
+        <div class="nav-left">
+          <div class="ms-3">
+            <router-link :to="{ name: 'Movies'}" class="navbar-brand">
+              <img src="./assets/logo3.png" alt="logo image" height="40">
+            </router-link>  
           </div>
         </div>
-        <div class="d-flex justify-content-end">
-        <div class="pt-3 px-2" v-if="showGuide" v-text="guide"></div>
-          <div class="p-2">
-            <ul v-if="isLogin" class="navbar-nav">
-              <i v-if="posterMode" class="far fa-newspaper fa-2x p-1" @click="modeToggle"></i>
-              <l v-else class="fas fa-portrait fa-2x" @click="modeToggle"></l>
-              <li v-if="userinfo.is_superuser" class="nav-item mx-2">
-                <div @click="goToAdmin" class="nav-link text-decoration-none fw-bold text-light" @mouseover="makeBlue" @mouseleave="makeWhite">관리자 모드</div>
-              </li>
-              <li class="nav-item mx-2">
-                <router-link :to="{ name: 'MyProfile'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">내 프로필</router-link>
-              </li>
-              <li class="nav-item mx-2">
-                <router-link @click.native="logout" to="#" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그아웃</router-link>
-              </li>
-            </ul>
-            <ul v-else class="navbar-nav">
-              <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
-              <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
-              <li class="nav-item mx-2">
-                <router-link :to="{ name: 'Signup'}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">회원가입</router-link>
-              </li>
-              <li class="nav-item mx-2">
-                <router-link :to="{ name: 'Login', params: { case: 1}}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그인</router-link>
-              </li>
-            </ul>
-          </div>
+        <div class="p-2">
+          <input class="form-control" type="text" v-model.trim="search" @keyup.enter="showMap" placeholder="영화를 검색하세요!">
         </div>
       </div>
+      
       <div v-if="showGuide" class="d-none d-lg-block" v-text="guide"></div>
+
       <div>
+
         <ul v-if="isLogin" class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
           <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
@@ -59,6 +33,7 @@
             <router-link @click.native="logout" to="#" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그아웃</router-link>
           </li>
         </ul>
+
         <ul v-else class="navbar-nav">
           <i v-if="posterMode" class="far fa-newspaper fa-2x" @click="modeToggle"></i>
           <i v-else class="fas fa-portrait fa-2x" @click="modeToggle"></i>
@@ -70,6 +45,7 @@
             <router-link :to="{ name: 'Login', params: { case: 1}}" class="nav-link text-decoration-none fw-bold text-light" @mouseover.native="makeBlue" @mouseleave.native="makeWhite">로그인</router-link>
           </li>
         </ul>
+
       </div>
     </nav>
     <br>
