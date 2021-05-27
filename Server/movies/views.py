@@ -334,11 +334,11 @@ def show_like_other_movies(request, user_id):
 
 
 @api_view(['GET'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
 def checkHeart(request, movie_id):
     flag = 0
     # 좋아요 된 상황
+    if request.user:
+        return Response({'flag': flag}, status=status.HTTP_200_OK)
     if request.user.like_movies.filter(id=movie_id).exists():
         flag =1 
     return Response({'flag': flag}, status=status.HTTP_200_OK)

@@ -70,7 +70,6 @@ export default {
       axios({
         method: 'get',
         url: 'http://127.0.0.1:8000/movies/checkheart/' + this.movie.id +'/',
-        headers: this.setToken(),
       })
       .then(res => {
         console.log(res)
@@ -92,6 +91,9 @@ export default {
     },
     signal: function () {
       return this.movie.poster_path
+    },
+    username: function () {
+      return this.$store.state.username
     }
   },
 
